@@ -2,7 +2,7 @@ import Dexie, { type EntityTable } from "dexie";
 import type { Card } from "@/lib/srs";
 import type { Day } from "@/lib/date";
 
-export type Section = "review" | "terms" | "learn" | "practice" | "speak";
+export type Section = "lesson" | "review" | "terms" | "learn" | "practice" | "speak";
 export type TopicLevel = "weak" | "medium" | "strong";
 
 export interface CardRow extends Card {

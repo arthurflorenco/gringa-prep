@@ -36,7 +36,7 @@ function Timer({ seconds }: { seconds: number }) {
 }
 
 /** Conceito ou comportamental: escreve em inglês, compara com a resposta-modelo e a rubrica. */
-export function WrittenPlayer({ data, itemId, day, onDone }: PlayerProps<Written>) {
+export function WrittenPlayer({ data, itemId, day, onDone, lang }: PlayerProps<Written>) {
   const draftKey = `draft:${itemId}`;
   const [answer, setAnswer] = useState(() => (typeof window === "undefined" ? "" : (localStorage.getItem(draftKey) ?? "")));
   const [revealed, setRevealed] = useState(false);
@@ -71,8 +71,11 @@ export function WrittenPlayer({ data, itemId, day, onDone }: PlayerProps<Written
           disabled={revealed}
           rows={7}
           spellCheck
-          lang="en"
-          placeholder="Write your answer in English…"
+                    placeholder={
+            lang === "pt"
+              ? "Responde em inglês — ou em português, se ainda não conseguires…"
+              : "Write your answer in English…"
+          }
           className="w-full resize-y rounded-xl border border-border bg-surface-2/50 p-4 leading-relaxed outline-none transition-colors placeholder:text-faint focus:border-border-strong focus:bg-surface disabled:opacity-70"
         />
         <div className="flex items-center justify-between font-mono text-[11px] text-faint">

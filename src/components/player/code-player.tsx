@@ -130,8 +130,9 @@ export function CodePlayer({ data, itemId, day, onDone }: PlayerProps<CodeExerci
             <summary className="cursor-pointer list-none font-mono text-[11px] uppercase tracking-[0.12em] text-faint">
               solução de referência
             </summary>
-            <div className="mt-3">
+            <div className="mt-3 space-y-3">
               <CodeEditor value={data.solution} readOnly />
+              {data.explanation && <Md className="text-sm text-muted">{data.explanation}</Md>}
             </div>
           </details>
           <RatingBar

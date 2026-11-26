@@ -8,7 +8,7 @@ import { useHotkeys } from "@/lib/use-hotkeys";
 import { RatingBar } from "./rating-bar";
 import type { PlayerProps } from "./types";
 
-export function TermPlayer({ data, itemId, day, onDone }: PlayerProps<Term>) {
+export function TermPlayer({ data, itemId, day, onDone, lang }: PlayerProps<Term>) {
   const [revealed, setRevealed] = useState(false);
   useHotkeys({ space: !revealed && (() => setRevealed(true)), enter: !revealed && (() => setRevealed(true)) });
 
@@ -39,6 +39,7 @@ export function TermPlayer({ data, itemId, day, onDone }: PlayerProps<Term>) {
           <div data-enter className="border-l-2 border-accent pl-4">
             <Label>numa entrevista</Label>
             <p className="mt-1.5 font-serif text-xl italic leading-snug">“{data.interviewLine}”</p>
+            {lang === "pt" && <p className="mt-1 text-sm text-muted">{data.interviewLinePt}</p>}
           </div>
           <RatingBar
             itemId={itemId}

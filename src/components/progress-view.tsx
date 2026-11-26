@@ -37,7 +37,7 @@ export function ProgressView() {
   const byTopic = content.topics
     .map((topic) => {
       const ids = [
-        ...content.exercises.filter((e) => e.topic === topic.slug).map((e) => e.id),
+        ...content.exercises.filter((e) => e.topic === topic.slug && e.kind !== "lesson").map((e) => e.id),
         ...content.terms.filter((t) => t.topic === topic.slug).map((t) => t.id),
       ];
       const topicCards = cards.filter((c) => ids.includes(c.itemId));

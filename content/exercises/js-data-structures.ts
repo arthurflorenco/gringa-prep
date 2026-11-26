@@ -1,6 +1,6 @@
-import type { ExerciseInput } from "@/lib/content/schema";
+import type { LegacyExerciseInput } from "@/lib/content/schema";
 
-export const exercises: ExerciseInput[] = [
+export const exercises: LegacyExerciseInput[] = [
   {
     id: "immutability-react",
     kind: "concept",

@@ -1,7 +1,7 @@
-import type { ExerciseInput } from "@/lib/content/schema";
+import type { LegacyExerciseInput } from "@/lib/content/schema";
 
 /** TypeScript, React e Next.js — prévia das semanas 2 e 3 (muito cobrado em vagas de front-end). */
-export const exercises: ExerciseInput[] = [
+export const exercises: LegacyExerciseInput[] = [
   {
     id: "ts-type-vs-interface",
     kind: "concept",

@@ -1,6 +1,6 @@
-import type { TermInput } from "@/lib/content/schema";
+import type { LegacyTermInput } from "@/lib/content/schema";
 
-export const terms: TermInput[] = [
+export const terms: LegacyTermInput[] = [
   // JavaScript core
   { id: "term-call-stack", term: "call stack", topic: "js-event-loop", definitionEn: "The stack of function calls currently being executed; JS runs one frame at a time.", definitionPt: "Pilha de chamadas de função em execução; o JS executa um frame de cada vez.", interviewLine: "A long synchronous loop blocks the call stack, so the UI can't respond." },
   { id: "term-microtask", term: "microtask", topic: "js-event-loop", definitionEn: "A callback (promise reaction, queueMicrotask) that runs right after the current script, before the next task.", definitionPt: "Callback (de promise, queueMicrotask) que corre logo a seguir ao código atual, antes da próxima task.", interviewLine: "Promise callbacks are microtasks, so they run before any setTimeout callback." },

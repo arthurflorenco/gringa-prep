@@ -4,6 +4,7 @@ import { getContent } from "@/lib/content";
 import { t } from "@/lib/i18n/pt";
 import { Label, Pill } from "@/components/ui";
 import { SeenDot } from "@/components/seen-dot";
+import { ExerciseTitle } from "@/components/exercise-title";
 
 export const metadata: Metadata = { title: "Biblioteca — Gringa Prep" };
 
@@ -19,8 +20,8 @@ export default function LibraryPage() {
         </Label>
         <h1 className="font-serif text-5xl tracking-tight">Biblioteca</h1>
         <p className="max-w-xl text-muted">
-          Tudo o que existe, por semana da trilha. A sessão do dia escolhe por ti, mas podes praticar qualquer coisa aqui — conta
-          para a revisão espaçada.
+          Tudo o que existe, por semana da trilha. A sessão do dia escolhe por ti, mas podes praticar qualquer coisa aqui — as
+          perguntas entram na revisão espaçada.
         </p>
       </header>
 
@@ -50,7 +51,7 @@ export default function LibraryPage() {
                             className="flex items-center gap-3 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm transition-colors hover:border-border-strong"
                           >
                             <SeenDot id={e.id} />
-                            <span className="flex-1 truncate">{e.title}</span>
+                            <ExerciseTitle id={e.id} className="flex-1 truncate" />
                             <span className="font-mono text-[10px] text-faint">{t.kinds[e.kind]}</span>
                           </Link>
                         </li>

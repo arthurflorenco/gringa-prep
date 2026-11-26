@@ -3,7 +3,8 @@
 import { useRef, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db, type TopicLevel } from "@/lib/db";
-import { exportBackup, importBackup, resetAll, setSetting } from "@/lib/db/actions";
+import { exportBackup, importBackup, resetAll, restartTrack, setSetting } from "@/lib/db/actions";
+import { setContentLang, useContentLang } from "@/lib/use-content-lang";
 import { getContent } from "@/lib/content";
 import { isDay, toDay } from "@/lib/date";
 import { useToday } from "@/lib/use-today";
@@ -22,6 +23,7 @@ export function SettingsView() {
   const startDay = useLiveQuery(async () => (await db.settings.get("startDay"))?.value as string | undefined, []);
   const [msg, setMsg] = useState<string | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
+  const lang = useContentLang();
   const fileRef = useRef<HTMLInputElement>(null);
 
   const setLevel = async (slug: string, level: TopicLevel) => {
@@ -57,10 +59,36 @@ export function SettingsView() {
         <h1 className="font-serif text-5xl tracking-tight">Ajustes</h1>
       </header>
 
+      <section className="space-y-3">
+        <h2 className="text-sm font-medium">Idioma das perguntas</h2>
+        <p className="text-sm text-muted">
+          O idioma em que as aulas e perguntas aparecem. Em cada pergunta podes trocar com o botão EN | PT ou a tecla <span className="font-mono">T</span>.
+          Na entrevista vai ser em inglês — muda para English quando te sentires pronto.
+        </p>
+        <div className="flex gap-1" role="radiogroup" aria-label="Idioma das perguntas">
+          {(
+            [
+              ["pt", "Português"],
+              ["en", "English"],
+            ] as const
+          ).map(([value, label]) => (
+            <button
+              key={value}
+              role="radio"
+              aria-checked={lang === value}
+              onClick={() => setContentLang(value)}
+              className={`rounded-full px-4 py-1.5 text-sm transition-colors ${lang === value ? "bg-fg text-bg" : "border border-border text-muted hover:text-fg"}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
+
       <section className="space-y-4">
         <div>
           <h2 className="text-sm font-medium">O teu nível por tema</h2>
-          <p className="text-sm text-muted">Temas marcados como Fraco entram na sessão todos os dias. Só afeta sessões novas (a partir de amanhã).</p>
+          <p className="text-sm text-muted">Temas marcados como Fraco entram na sessão todos os dias, a partir da semana em que a trilha chega a eles. Só afeta sessões novas (a partir de amanhã).</p>
         </div>
         <ul className="divide-y divide-border rounded-2xl border border-border bg-surface">
           {topics.map((t) => (
@@ -93,6 +121,15 @@ export function SettingsView() {
       <section className="space-y-3">
         <h2 className="text-sm font-medium">Início da trilha</h2>
         <p className="text-sm text-muted">Define em que semana da trilha estás (a semana 1 começa neste dia).</p>
+        <Button
+          onClick={async () => {
+            if (!today) return;
+            await restartTrack(today);
+            setMsg("Trilha recomeçada: hoje é o dia 1 da semana 1. Abre a tela Hoje.");
+          }}
+        >
+          Recomeçar a trilha a partir de hoje
+        </Button>
         <input
           type="date"
           value={startDay ?? today ?? ""}

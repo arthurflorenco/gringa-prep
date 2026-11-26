@@ -4,12 +4,30 @@ import { exercises as jsData } from "./exercises/js-data-structures";
 import { exercises as career } from "./exercises/career";
 import { exercises as frontendCore } from "./exercises/frontend-core";
 import { exercises as backendSecurity } from "./exercises/backend-security";
-import { terms } from "./glossary/terms";
+import { exercises as basicsWeb } from "./exercises/basics-web";
+import { exercises as basicsJs } from "./exercises/basics-js";
+import { lessons as week1 } from "./lessons/week1";
+import { lessons as week2 } from "./lessons/week2";
+import { terms as legacyTerms } from "./glossary/terms";
+import { terms as basicTerms } from "./glossary/basics";
+import { legacyPt, legacyTermLinesPt } from "./translations/pt";
 import { topics } from "./topics";
+import type { ExerciseInput, LegacyExerciseInput, LegacyTermInput, TermInput } from "@/lib/content/schema";
 
-/** Para adicionar um ficheiro novo de exercícios, importe-o aqui. */
+/** Exercícios antigos recebem o bloco `pt` do ficheiro de traduções. */
+const withPt = (list: LegacyExerciseInput[]) => list.map((e) => ({ ...e, pt: legacyPt[e.id] }) as ExerciseInput);
+
+const withLinePt = (list: LegacyTermInput[]) => list.map((t) => ({ ...t, interviewLinePt: legacyTermLinesPt[t.id] }) as TermInput);
+
+/** Para adicionar um ficheiro novo, importe-o aqui. Aulas primeiro (ordem = ordem das aulas). */
 export const rawContent = {
   topics,
-  exercises: [...jsEventLoop, ...jsClosures, ...jsData, ...career, ...frontendCore, ...backendSecurity],
-  terms,
+  exercises: [
+    ...week1,
+    ...week2,
+    ...basicsWeb,
+    ...basicsJs,
+    ...withPt([...jsEventLoop, ...jsClosures, ...jsData, ...career, ...frontendCore, ...backendSecurity]),
+  ],
+  terms: [...basicTerms, ...withLinePt(legacyTerms)],
 };

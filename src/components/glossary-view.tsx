@@ -40,6 +40,7 @@ export function GlossaryView() {
                 <p>{t.definitionEn}</p>
                 <p className="text-muted">{t.definitionPt}</p>
                 <p className="border-l-2 border-accent pl-3 font-serif text-base italic">“{t.interviewLine}”</p>
+                <p className="pl-3.5 text-muted">{t.interviewLinePt}</p>
               </div>
             </details>
           </li>

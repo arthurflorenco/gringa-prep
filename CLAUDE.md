@@ -2,7 +2,7 @@
 
 # gringa-prep — guia rápido para agentes
 
-App de prática diária para entrevistas tech no exterior. UI em **pt-BR**, conteúdo (perguntas/respostas) em **inglês**.
+App de prática diária para entrevistas tech no exterior, **do zero ao nível júnior**. UI em **pt-BR**; todo o conteúdo existe em **EN e PT** (toggle por item, tecla `T`, padrão em Ajustes).
 Sem backend: tudo no browser (IndexedDB via Dexie). Open source (MIT), repo `arthurflorenco/gringa-prep`.
 
 ## Comandos
@@ -13,11 +13,15 @@ Sem backend: tudo no browser (IndexedDB via Dexie). Open source (MIT), repo `art
 ## Mapa (leia só o que a tarefa precisa)
 | Ficheiro | Papel |
 | --- | --- |
-| `content/topics.ts` | 22 temas, `week` 1–8, `interviewWeight` 1–3 |
+| `content/topics.ts` | 30 temas, `week` 1–8 (S1 web/HTML/CSS/Git → S8 testes/arquitetura); ordem = ordem das aulas |
+| `content/lessons/week*.ts` | aulas (`kind: "lesson"`), ordem do array = ordem da trilha |
 | `content/exercises/*.ts` | exercícios (`ExerciseInput[]`). **Só abrir se a tarefa for de conteúdo** |
-| `content/glossary/terms.ts` | termos (`id` começa por `term-`) |
+| `content/glossary/*.ts` | termos (`id` começa por `term-`, precisa `interviewLinePt`) |
+| `content/translations/pt.ts` | PT dos exercícios/termos antigos (tipos `Legacy*Input`). Conteúdo novo traz `pt` inline |
 | `content/index.ts` | junta tudo — registar aqui ficheiros novos |
-| `src/lib/content/schema.ts` | schemas Zod: `concept`, `quiz`, `code`, `behavioral`, `term` |
+| `src/lib/content/schema.ts` | schemas Zod: `lesson`, `concept`, `quiz`, `code`, `behavioral`, `term` — todos com bloco `pt` obrigatório |
+| `src/lib/content/localize.ts` | `localize(ex, lang)` sobrepõe `ex.pt`; `titleOf` |
+| `src/lib/use-content-lang.ts` | idioma global (localStorage `contentLang`, padrão `pt`) |
 | `src/lib/content/index.ts` | `getContent()` valida + indexa (`itemById`, `topicBySlug`) |
 | `src/lib/daily/build-session.ts` | `buildDailySession()` pura/determinística; `weekFor()` |
 | `src/lib/db/index.ts` | Dexie: `cards`(FSRS), `attempts`, `sessions`, `settings` |
@@ -31,12 +35,13 @@ Sem backend: tudo no browser (IndexedDB via Dexie). Open source (MIT), repo `art
 | `tests/unit/*` | vitest (node + fake-indexeddb) |
 
 ## Fluxo de dados
-`TodayView` → `ensureSession(day)` (cria 1×/dia: reviews vencidas ≤10, 3 termos, 2 learn [semana + tema "weak"], 1 code, 1 behavioral) →
+`TodayView` → `ensureSession(day)` (cria 1×/dia: aula seguinte → reviews vencidas ≤10 → 3 termos (tema da aula primeiro) → 2 learn [tema da aula + tema "weak" já alcançado] → 1 code (mais fácil) → 1 behavioral) →
 o utilizador responde → `recordAttempt({itemId, day, rating 1–4, correct})` → grava attempt + reagenda card FSRS.
-"Feito hoje" = existe attempt com esse `day`. Item visto = existe card.
+"Feito hoje" = existe attempt com esse `day`. Item visto = tem card ou attempt. Aulas gravam attempt com `schedule:false` (sem card FSRS). `restartTrack(day)` muda `startDay` e refaz a sessão de hoje.
 
 ## Receitas
-- **Exercício novo**: adicionar objeto em `content/exercises/<area>.ts` (`id` kebab-case único, `topic` existente).
+- **Aula nova**: objeto `kind: "lesson"` em `content/lessons/weekN.ts` (`body`, `keyPoints`, `pt{title,prompt,body,keyPoints}`).
+- **Exercício novo**: adicionar objeto em `content/exercises/<area>.ts` (`id` kebab-case único, `topic` existente, bloco `pt` com os mesmos campos de texto e o mesmo nº de itens em rubric/options/hints).
   `code` precisa de `starter`, `solution`, `tests[{name, code, hidden?}]` — os testes partilham escopo com o código e usam `expect`/`sleep`.
   CI exige: solution passa todos, starter falha. Evitar rejeições não tratadas nos testes (`p.catch(() => {})`).
 - **Ficheiro de conteúdo novo**: importar em `content/index.ts`.
@@ -63,5 +68,6 @@ o utilizador responde → `recordAttempt({itemId, day, rating 1–4, correct})` 
 - Commits convencionais (`feat:`, `fix:`, `content:`, `docs:`).
 
 ## Roadmap
+- Conteúdo: aulas das semanas 3–8 (só as semanas 1–2 têm aulas) e mais exercícios de iniciante nas semanas 3–4.
 - F2: exercícios SQL com PGlite (joins, índices/EXPLAIN, RLS), mock interview ao fim de semana, conteúdo semanas 2–4.
 - F3: feedback por IA opcional (chave Anthropic do utilizador, rota `/api/grade`), semanas 5–8, Playwright e2e, UI em EN.
