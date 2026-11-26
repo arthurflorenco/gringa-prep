@@ -1,7 +1,7 @@
-import type { ExerciseInput } from "@/lib/content/schema";
+import type { LessonDraftInput } from "@/lib/content/schema";
 
 /** Semana 2 — JavaScript do zero. A ordem do array é a ordem das aulas. */
-export const lessons: ExerciseInput[] = [
+export const lessons: LessonDraftInput[] = [
   {
     id: "lesson-js-first-steps",
     kind: "lesson",

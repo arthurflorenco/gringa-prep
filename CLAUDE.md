@@ -14,7 +14,8 @@ Sem backend: tudo no browser (IndexedDB via Dexie). Open source (MIT), repo `art
 | Ficheiro | Papel |
 | --- | --- |
 | `content/topics.ts` | 30 temas, `week` 1–8 (S1 web/HTML/CSS/Git → S8 testes/arquitetura); ordem = ordem das aulas |
-| `content/lessons/week*.ts` | aulas (`kind: "lesson"`), ordem do array = ordem da trilha |
+| `content/lessons/week*.ts` | aulas (`kind: "lesson"`, tipo `LessonDraftInput`), ordem do array = ordem da trilha |
+| `content/reels/week*.ts` | reel de cada aula (`id da aula → ReelSceneInput[]`), juntado em `content/index.ts` (`withReel`) |
 | `content/exercises/*.ts` | exercícios (`ExerciseInput[]`). **Só abrir se a tarefa for de conteúdo** |
 | `content/glossary/*.ts` | termos (`id` começa por `term-`, precisa `interviewLinePt`) |
 | `content/translations/pt.ts` | PT dos exercícios/termos antigos (tipos `Legacy*Input`). Conteúdo novo traz `pt` inline |
@@ -31,6 +32,8 @@ Sem backend: tudo no browser (IndexedDB via Dexie). Open source (MIT), repo `art
 | `src/lib/date.ts` | `Day` = "YYYY-MM-DD" local, `getToday`, `streak`, `nowOn` |
 | `src/components/today-view.tsx` | tela Hoje: visão geral + modo foco |
 | `src/components/player/*` | um player por tipo + `item-player.tsx` (dispatcher) + `rating-bar.tsx` |
+| `src/components/player/reel-*.tsx` | reel da aula: `reel-player.tsx` (motor: cenas, barras, controlos) + `reel-scenes.tsx` (uma cena animada por `type`) |
+| `src/lib/narrator.ts` · `src/lib/reel.ts` | voz do browser (Web Speech API, prefs em localStorage `reelPrefs`) · duração das cenas (pura) |
 | `src/app/*/page.tsx` | páginas finas (server) que renderizam views client |
 | `tests/unit/*` | vitest (node + fake-indexeddb) |
 
@@ -40,7 +43,8 @@ o utilizador responde → `recordAttempt({itemId, day, rating 1–4, correct})` 
 "Feito hoje" = existe attempt com esse `day`. Item visto = tem card ou attempt. Aulas gravam attempt com `schedule:false` (sem card FSRS). `restartTrack(day)` muda `startDay` e refaz a sessão de hoje.
 
 ## Receitas
-- **Aula nova**: objeto `kind: "lesson"` em `content/lessons/weekN.ts` (`body`, `keyPoints`, `pt{title,prompt,body,keyPoints}`).
+- **Aula nova**: objeto `kind: "lesson"` em `content/lessons/weekN.ts` (`body`, `keyPoints`, `pt{title,prompt,body,keyPoints}`) **e** o reel em `content/reels/weekN.ts` (obrigatório, 4–10 cenas).
+  Cenas: `title`, `flow{steps}`, `code{code,highlight}`, `list{items}`, `compare{left,right}`, `quiz{question,options,answerIndex,why}`; cada uma com `say` (texto falado, sem crases) e `pt` com os mesmos campos de texto e o mesmo nº de itens. Pôr ≥1 `quiz`.
 - **Exercício novo**: adicionar objeto em `content/exercises/<area>.ts` (`id` kebab-case único, `topic` existente, bloco `pt` com os mesmos campos de texto e o mesmo nº de itens em rubric/options/hints).
   `code` precisa de `starter`, `solution`, `tests[{name, code, hidden?}]` — os testes partilham escopo com o código e usam `expect`/`sleep`.
   CI exige: solution passa todos, starter falha. Evitar rejeições não tratadas nos testes (`p.catch(() => {})`).

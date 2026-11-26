@@ -93,3 +93,13 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Barra de progresso do reel (pausa com animation-play-state). */
+@keyframes reel-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

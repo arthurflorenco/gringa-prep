@@ -14,6 +14,7 @@ export function PracticeView({ id }: { id: string }) {
   const [round, setRound] = useState(0);
   const item = getContent().itemById.get(id);
   if (!item) return null;
+  const isLesson = item.type === "exercise" && item.exercise.kind === "lesson";
   if (!day) return <div className="h-64 animate-pulse rounded-2xl bg-surface-2/60" />;
 
   return (
@@ -24,10 +25,14 @@ export function PracticeView({ id }: { id: string }) {
       {done ? (
         <Card className="space-y-4 text-center">
           <p className="font-serif text-3xl">Registado.</p>
-          <p className="text-sm text-muted">Entrou na tua revisão espaçada — vai voltar quando estiver quase a esquecer.</p>
+          <p className="text-sm text-muted">
+            {isLesson
+              ? "Aula marcada como vista. As perguntas sobre ela aparecem nas próximas sessões."
+              : "Entrou na tua revisão espaçada — vai voltar quando estiver quase a esquecer."}
+          </p>
           <div className="flex justify-center gap-4 text-sm">
             <button className="text-muted underline-offset-4 hover:text-fg hover:underline" onClick={() => (setDone(false), setRound((r) => r + 1))}>
-              Fazer de novo
+              {isLesson ? "Ver de novo" : "Fazer de novo"}
             </button>
             <Link className="text-accent underline-offset-4 hover:underline" href="/">
               Ir para Hoje →

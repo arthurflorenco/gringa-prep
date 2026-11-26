@@ -1,7 +1,7 @@
-import type { ExerciseInput } from "@/lib/content/schema";
+import type { LessonDraftInput } from "@/lib/content/schema";
 
 /** Semana 1 — como a web funciona, HTML, CSS, terminal e Git. A ordem do array é a ordem das aulas. */
-export const lessons: ExerciseInput[] = [
+export const lessons: LessonDraftInput[] = [
   {
     id: "lesson-how-web-works",
     kind: "lesson",

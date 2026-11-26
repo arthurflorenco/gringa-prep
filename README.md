@@ -4,8 +4,7 @@
 
 Every day you get a short session (~45 min) built from an 8-week track that starts **from zero** (how the web works, HTML, CSS, Git, JavaScript basics) and ends at interview level (React, Next.js, SQL, auth, testing, architecture):
 
-- **Lesson of the day** — a short explanation before any question.
-
+- **Lesson of the day** — a short, vertical **reel** (animated scenes, narrated by your browser's built-in voice, with quick questions you must answer to continue), plus the full text version.
 - **Review** — questions from previous days, scheduled with [FSRS](https://github.com/open-spaced-repetition/ts-fsrs) spaced repetition (the algorithm behind modern Anki).
 - **Technical terms** — English vocabulary with a ready-to-use interview sentence.
 - **Concepts** — open questions you answer *in English*, then compare against a model answer and a rubric.
@@ -45,7 +44,7 @@ The session for a day is built once and stored, so it doesn't change while you w
 ## Contributing exercises
 
 1. Pick a topic slug from `content/topics.ts` (or add one).
-2. Add an object to a file in `content/exercises/` (`concept`, `quiz`, `code`, `behavioral`) or `content/lessons/` (`lesson`). Every item needs a `pt` block with the Portuguese text. Use the existing ones as templates.
+2. Add an object to a file in `content/exercises/` (`concept`, `quiz`, `code`, `behavioral`) or `content/lessons/` (`lesson` — its reel goes in `content/reels/`). Every item needs a `pt` block with the Portuguese text. Use the existing ones as templates.
 3. For `code`, provide `starter`, `solution` and `tests`. CI checks that **every solution passes its tests and every starter fails**.
 4. Run `npm run check` and open a PR.
 

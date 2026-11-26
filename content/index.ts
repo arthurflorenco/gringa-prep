@@ -8,14 +8,20 @@ import { exercises as basicsWeb } from "./exercises/basics-web";
 import { exercises as basicsJs } from "./exercises/basics-js";
 import { lessons as week1 } from "./lessons/week1";
 import { lessons as week2 } from "./lessons/week2";
+import { reels as reelsWeek1 } from "./reels/week1";
+import { reels as reelsWeek2 } from "./reels/week2";
 import { terms as legacyTerms } from "./glossary/terms";
 import { terms as basicTerms } from "./glossary/basics";
 import { legacyPt, legacyTermLinesPt } from "./translations/pt";
 import { topics } from "./topics";
-import type { ExerciseInput, LegacyExerciseInput, LegacyTermInput, TermInput } from "@/lib/content/schema";
+import type { ExerciseInput, LegacyExerciseInput, LegacyTermInput, LessonDraftInput, TermInput } from "@/lib/content/schema";
 
 /** Exercícios antigos recebem o bloco `pt` do ficheiro de traduções. */
 const withPt = (list: LegacyExerciseInput[]) => list.map((e) => ({ ...e, pt: legacyPt[e.id] }) as ExerciseInput);
+
+/** Cada aula recebe o seu reel (content/reels/). Aula sem reel falha na validação. */
+const reels = { ...reelsWeek1, ...reelsWeek2 };
+const withReel = (list: LessonDraftInput[]) => list.map((l) => ({ ...l, reel: reels[l.id] }) as ExerciseInput);
 
 const withLinePt = (list: LegacyTermInput[]) => list.map((t) => ({ ...t, interviewLinePt: legacyTermLinesPt[t.id] }) as TermInput);
 
@@ -23,8 +29,7 @@ const withLinePt = (list: LegacyTermInput[]) => list.map((t) => ({ ...t, intervi
 export const rawContent = {
   topics,
   exercises: [
-    ...week1,
-    ...week2,
+    ...withReel([...week1, ...week2]),
     ...basicsWeb,
     ...basicsJs,
     ...withPt([...jsEventLoop, ...jsClosures, ...jsData, ...career, ...frontendCore, ...backendSecurity]),

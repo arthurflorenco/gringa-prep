@@ -112,6 +112,51 @@ export const behavioralSchema = z.object({
   }),
 });
 
+/*
+ * Reel: a aula em formato vídeo curto vertical (cenas animadas + narração do browser).
+ * Cada cena tem `say` (o que a voz diz) e um bloco `pt` com os mesmos campos de texto.
+ */
+const say = z.string().min(5).max(240);
+const s = z.string().min(1);
+
+export const reelSceneSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("title"), say, headline: s, sub: s.optional(), pt: z.object({ say, headline: s, sub: s.optional() }) }),
+  /** Caixas ligadas por setas que acendem uma a uma. */
+  z.object({ type: z.literal("flow"), say, steps: z.array(s).min(2).max(6), pt: z.object({ say, steps: z.array(s).min(2).max(6) }) }),
+  /** Código "digitado"; `highlight` = linhas (1-based) que acendem no fim. */
+  z.object({
+    type: z.literal("code"),
+    say,
+    code: s,
+    highlight: z.array(z.number().int().min(1)).default([]),
+    pt: z.object({ say, code: s.optional() }),
+  }),
+  z.object({ type: z.literal("list"), say, items: z.array(s).min(2).max(6), pt: z.object({ say, items: z.array(s).min(2).max(6) }) }),
+  z.object({
+    type: z.literal("compare"),
+    say,
+    left: z.object({ label: s, items: z.array(s).min(1).max(5) }),
+    right: z.object({ label: s, items: z.array(s).min(1).max(5) }),
+    pt: z.object({
+      say,
+      left: z.object({ label: s, items: z.array(s).min(1).max(5) }),
+      right: z.object({ label: s, items: z.array(s).min(1).max(5) }),
+    }),
+  }),
+  /** Pergunta dentro do reel: só avança depois de acertar. */
+  z.object({
+    type: z.literal("quiz"),
+    say,
+    question: s,
+    options: z.array(s).min(2).max(4),
+    answerIndex: z.number().int().min(0),
+    why: s,
+    pt: z.object({ say, question: s, options: z.array(s).min(2).max(4), why: s }),
+  }),
+]);
+export type ReelScene = z.infer<typeof reelSceneSchema>;
+export type ReelSceneInput = z.input<typeof reelSceneSchema>;
+
 /** Aula curta: ensina antes de perguntar. Não entra na revisão espaçada. */
 export const lessonSchema = z.object({
   ...base,
@@ -119,6 +164,8 @@ export const lessonSchema = z.object({
   /** Corpo da aula (markdown leve). `prompt` é o resumo de uma linha. */
   body: z.string().min(50),
   keyPoints: z.array(z.string()).min(2).max(6),
+  /** A aula em formato reel (obrigatório). Vive em content/reels/weekN.ts. */
+  reel: z.array(reelSceneSchema).min(4).max(10),
   pt: z.object({
     title: z.string().min(3),
     prompt: z.string().min(10),
@@ -165,3 +212,5 @@ type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K>
 export type LegacyExerciseInput = DistributiveOmit<ExerciseInput, "pt">;
 /** Termo cuja frase PT vive em content/translations/pt.ts (conteúdo antigo). */
 export type LegacyTermInput = Omit<TermInput, "interviewLinePt">;
+/** Aula sem o reel — o reel é escrito à parte em content/reels/ e juntado em content/index.ts. */
+export type LessonDraftInput = Omit<z.input<typeof lessonSchema>, "reel">;

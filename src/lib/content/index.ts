@@ -1,5 +1,5 @@
 import { rawContent } from "@content/index";
-import { exerciseSchema, termSchema, topicSchema, type Exercise, type StudyItem, type Term, type Topic } from "./schema";
+import { exerciseSchema, termSchema, topicSchema, type Exercise, type Lesson, type StudyItem, type Term, type Topic } from "./schema";
 
 export interface Content {
   topics: Topic[];
@@ -7,6 +7,31 @@ export interface Content {
   terms: Term[];
   topicBySlug: Map<string, Topic>;
   itemById: Map<string, StudyItem>;
+}
+
+/** O PT de cada cena tem de ter o mesmo nº de passos/itens/opções que o EN. */
+function checkReel(lesson: Lesson): string[] {
+  const errs: string[] = [];
+  lesson.reel.forEach((sc, i) => {
+    const at = `lesson "${lesson.id}" reel[${i}]`;
+    const same = (a: unknown[], b: unknown[], what: string) => a.length !== b.length && errs.push(`${at}: pt.${what} has ${b.length} items, en has ${a.length}`);
+    if (sc.type === "flow") same(sc.steps, sc.pt.steps, "steps");
+    if (sc.type === "list") same(sc.items, sc.pt.items, "items");
+    if (sc.type === "compare") {
+      same(sc.left.items, sc.pt.left.items, "left.items");
+      same(sc.right.items, sc.pt.right.items, "right.items");
+    }
+    if (sc.type === "quiz") {
+      same(sc.options, sc.pt.options, "options");
+      if (sc.answerIndex >= sc.options.length) errs.push(`${at}: answerIndex out of range`);
+    }
+    if (sc.type === "code") {
+      const lines = sc.code.split("\n").length;
+      if (sc.highlight.some((h) => h > lines)) errs.push(`${at}: highlight line out of range`);
+      if (sc.pt.code && sc.pt.code.split("\n").length !== lines) errs.push(`${at}: pt.code has a different number of lines`);
+    }
+  });
+  return errs;
 }
 
 /** Valida e indexa o conteúdo. Lança um erro legível se algo estiver inválido. */
@@ -25,6 +50,7 @@ export function buildContent(raw = rawContent): Content {
     const ex = r.data;
     if (!topicBySlug.has(ex.topic)) errors.push(`exercise "${ex.id}": unknown topic "${ex.topic}"`);
     if (ex.kind === "quiz" && ex.answerIndex >= ex.options.length) errors.push(`exercise "${ex.id}": answerIndex out of range`);
+    if (ex.kind === "lesson") errors.push(...checkReel(ex));
     exercises.push(ex);
   }
 
