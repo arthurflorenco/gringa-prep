@@ -2,6 +2,7 @@
 
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import { PostgreSQL, sql } from "@codemirror/lang-sql";
 import { EditorView, keymap } from "@codemirror/view";
 import { Prec } from "@codemirror/state";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
@@ -36,11 +37,13 @@ export default function CodeEditor({
   onChange,
   onRun,
   readOnly = false,
+  language = "ts",
 }: {
   value: string;
   onChange?: (v: string) => void;
   onRun?: () => void;
   readOnly?: boolean;
+  language?: "ts" | "sql";
 }) {
   // ⌘/Ctrl+Enter corre os testes em vez de inserir uma linha.
   const runKeys = Prec.highest(keymap.of([{ key: "Mod-Enter", run: () => (onRun?.(), true) }]));
@@ -50,7 +53,7 @@ export default function CodeEditor({
       onChange={onChange}
       readOnly={readOnly}
       theme={theme}
-      extensions={[runKeys, javascript({ typescript: true }), syntaxHighlighting(highlight), EditorView.lineWrapping]}
+      extensions={[runKeys, language === "sql" ? sql({ dialect: PostgreSQL }) : javascript({ typescript: true }), syntaxHighlighting(highlight), EditorView.lineWrapping]}
       basicSetup={{ foldGutter: false, highlightActiveLineGutter: !readOnly, highlightActiveLine: !readOnly, autocompletion: true }}
       aria-label="Editor de código"
     />

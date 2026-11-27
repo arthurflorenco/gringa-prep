@@ -36,7 +36,15 @@ export async function ensureSession(day: Day): Promise<SessionRow> {
       await db.settings.put({ key: "startDay", value: day });
     }
     const cards = await db.cards.toArray();
-    const attempted = (await db.attempts.orderBy("itemId").uniqueKeys()) as string[];
+    const attempts = await db.attempts.orderBy("id").toArray();
+    const attempted = [...new Set(attempts.map((a) => a.itemId))];
+    const content = getContent();
+    const topicOf = (id: string) => {
+      const it = content.itemById.get(id);
+      return it ? (it.type === "term" ? it.term.topic : it.exercise.topic) : undefined;
+    };
+    const progressWeek = Math.max(0, ...attempted.map((id) => content.topicBySlug.get(topicOf(id) ?? "")?.week ?? 0));
+    const recentTopic = attempts.length ? topicOf(attempts[attempts.length - 1].itemId) : undefined;
     const due = cards
       .filter((c) => c.due.getTime() <= endOfDay(day).getTime())
       .sort((a, b) => a.due.getTime() - b.due.getTime())
@@ -45,7 +53,9 @@ export async function ensureSession(day: Day): Promise<SessionRow> {
     const entries = buildDailySession({
       day,
       startDay,
-      content: getContent(),
+      content,
+      progressWeek,
+      recentTopic,
       seenIds: new Set([...cards.map((c) => c.itemId), ...attempted]),
       dueIds: due,
       topicLevels: settings.topicLevels,

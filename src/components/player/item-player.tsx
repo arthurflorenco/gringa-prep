@@ -13,6 +13,8 @@ import { useHotkeys } from "@/lib/use-hotkeys";
 import { CodePlayer } from "./code-player";
 import { LessonPlayer } from "./lesson-player";
 import { QuizPlayer } from "./quiz-player";
+import { ReviewPlayer } from "./review-player";
+import { SqlPlayer } from "./sql-player";
 import { TermPlayer } from "./term-player";
 import { WrittenPlayer } from "./written-player";
 import type { DoneResult } from "./types";
@@ -68,6 +70,10 @@ export function ItemPlayer({ item, day, onDone, badge }: { item: StudyItem; day:
         <LessonPlayer data={ex as Extract<typeof ex, { kind: "lesson" }>} {...common} />
       ) : ex!.kind === "quiz" ? (
         <QuizPlayer data={ex as Extract<typeof ex, { kind: "quiz" }>} {...common} />
+      ) : ex!.kind === "review" ? (
+        <ReviewPlayer data={ex as Extract<typeof ex, { kind: "review" }>} {...common} />
+      ) : ex!.kind === "sql" ? (
+        <SqlPlayer data={ex as Extract<typeof ex, { kind: "sql" }>} {...common} />
       ) : ex!.kind === "code" ? (
         <CodePlayer data={ex as Extract<typeof ex, { kind: "code" }>} {...common} />
       ) : (

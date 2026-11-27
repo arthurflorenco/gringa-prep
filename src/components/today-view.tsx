@@ -112,7 +112,7 @@ export function TodayView() {
   const allDone = pending.length === 0;
 
   const nextExtra = content.exercises.find(
-    (e) => !seenIds?.has(e.id) && !entries.some((x) => x.itemId === e.id) && (e.kind === "concept" || e.kind === "quiz" || e.kind === "code"),
+    (e) => !seenIds?.has(e.id) && !entries.some((x) => x.itemId === e.id) && (e.kind === "quiz" || e.kind === "code" || e.kind === "sql" || e.kind === "review"),
   );
 
   return (
@@ -201,7 +201,7 @@ export function TodayView() {
       )}
 
       <p data-enter className="text-center text-xs text-faint">
-        Atalhos: <Kbd>1</Kbd>–<Kbd>4</Kbd> avaliar · <Kbd>espaço</Kbd> revelar · <Kbd>⌘↵</Kbd> enviar/correr
+        Atalhos: <Kbd>1</Kbd>–<Kbd>4</Kbd> responder · <Kbd>↵</Kbd> continuar · <Kbd>⌘↵</Kbd> corrigir/correr
       </p>
     </div>
   );

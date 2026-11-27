@@ -5,11 +5,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-js-first-steps": [
     {
       type: "title",
-      say: "JavaScript is the language that makes pages come alive. It runs in the browser, and on the server with Node.",
+      say: "JavaScript is the language that makes pages come alive. | It runs in the browser, and on the server with Node.",
       headline: "JavaScript: first steps",
       sub: "console.log and reading errors",
       pt: {
-        say: "JavaScript é a linguagem que dá vida às páginas. Ela roda no navegador, e no servidor com o Node.",
+        say: "JavaScript é a linguagem que dá vida às páginas. | Ela roda no navegador, e no servidor com o Node.",
         headline: "JavaScript: primeiros passos",
         sub: "console.log e ler erros",
       },
@@ -26,11 +26,26 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "flow",
-      say: "Where do you see it? Open DevTools with Command Option I, go to the Console tab, and read the output and the errors.",
+      say: "Where do you see it? | Open DevTools with Command Option I, | go to the Console tab, | and read the output and the errors.",
       steps: ["`Cmd + Option + I`", "Console tab", "See values and errors"],
       pt: {
-        say: "Onde você vê isso? Abra o DevTools com Command Option I, vá para a aba Console, e leia os valores e os erros.",
+        say: "Onde você vê isso? | Abra o DevTools com Command Option I, | vá para a aba Console, | e leia os valores e os erros.",
         steps: ["`Cmd + Option + I`", "Aba Console", "Ver valores e erros"],
+      },
+    },
+    {
+      type: "quiz",
+      say: "Predict the output. What does this print in the console?",
+      question: "What does this print?",
+      code: "const name = 'Ana';\nconsole.log('Hi', name);",
+      options: ["`Hi Ana`", "`Hi name`", "An error"],
+      answerIndex: 0,
+      why: "name is a variable, so console log prints its value, Ana, after Hi.",
+      pt: {
+        say: "Prevê o resultado. O que isto mostra no console?",
+        question: "O que isto mostra?",
+        options: ["`Hi Ana`", "`Hi name`", "Um erro"],
+        why: "name é uma variável, então o console log mostra o valor dela, Ana, depois do Hi.",
       },
     },
     {
@@ -56,11 +71,23 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "list",
-      say: "Two more things. Comments start with two slashes and are ignored. And TypeScript is just JavaScript plus types.",
+      say: "Two more things. | Comments start with two slashes and are ignored. | TypeScript is just JavaScript plus types. | So everything you learn here works in TypeScript too.",
       items: ["`// comment` — ignored by JS", "TypeScript = JavaScript + types", "Everything you learn here works in TS"],
       pt: {
-        say: "Mais duas coisas. Comentários começam com duas barras e são ignorados. E TypeScript é só JavaScript mais tipos.",
+        say: "Mais duas coisas. | Comentários começam com duas barras e são ignorados. | TypeScript é só JavaScript mais tipos. | Então tudo o que você aprende aqui funciona em TypeScript também.",
         items: ["`// comentário` — o JS ignora", "TypeScript = JavaScript + tipos", "Tudo o que você aprende aqui funciona em TS"],
+      },
+    },
+    {
+      type: "truefalse",
+      say: "Last one. True or false?",
+      statement: "JavaScript only runs inside the browser.",
+      answer: false,
+      why: "It also runs on the server, with Node. That's why one language covers front-end and back-end.",
+      pt: {
+        say: "Última. Verdadeiro ou falso?",
+        statement: "JavaScript só roda dentro do navegador.",
+        why: "Ele também roda no servidor, com o Node. Por isso uma linguagem cobre front-end e back-end.",
       },
     },
   ],
@@ -68,47 +95,57 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-variables-types": [
     {
       type: "title",
-      say: "A variable is a name that holds a value. Like a labelled box.",
+      say: "A variable is a name that holds a value. | Like a labelled box.",
       headline: "Variables & types",
       sub: "const, let and the basic types",
       pt: {
-        say: "Uma variável é um nome que guarda um valor. Como uma caixa com etiqueta.",
+        say: "Uma variável é um nome que guarda um valor. | Como uma caixa com etiqueta.",
         headline: "Variáveis e tipos",
         sub: "const, let e os tipos básicos",
       },
     },
     {
+      type: "visual",
+      kind: "boxes",
+      say: "Picture boxes with labels. | A box called city holds Zurich. | A box called age holds thirty. | With let, the same box can get a new value: thirty one.",
+      labels: ["city = `'Zurich'`", "age = `30`", "age = `31`"],
+      pt: {
+        say: "Imagina caixas com etiquetas. | Uma caixa chamada city guarda Zurich. | Uma caixa chamada age guarda trinta. | Com let, a mesma caixa pode receber outro valor: trinta e um.",
+        labels: ["city = `'Zurich'`", "age = `30`", "age = `31`"],
+      },
+    },
+    {
       type: "compare",
-      say: "Use const by default: it can't be reassigned. Use let only when the value must change. Avoid var.",
+      say: "Use const by default: it can't be reassigned. | Use let only when the value must change. Avoid var.",
       left: { label: "const", items: ["Can't be reassigned", "Use by default", "`const city = 'Zurich'`"] },
       right: { label: "let", items: ["Can change", "Counters, totals", "`let age = 30; age = 31`"] },
       pt: {
-        say: "Use const por padrão: ela não pode ser reatribuída. Use let só quando o valor precisa mudar. Evite var.",
+        say: "Use const por padrão: ela não pode ser reatribuída. | Use let só quando o valor precisa mudar. Evite var.",
         left: { label: "const", items: ["Não pode ser reatribuída", "Use por padrão", "`const city = 'Zurich'`"] },
         right: { label: "let", items: ["Pode mudar", "Contadores, totais", "`let age = 30; age = 31`"] },
       },
     },
     {
       type: "list",
-      say: "The basic types. String is text. Number is a number. Boolean is true or false. Undefined means no value yet. Null means empty on purpose.",
+      say: "The basic types. | String is text. | Number is a number. | Boolean is true or false. | Undefined means no value yet. | Null means empty on purpose.",
       items: ["string — `'hello'`", "number — `42`, `3.14`", "boolean — `true` / `false`", "undefined — no value yet", "null — empty on purpose"],
       pt: {
-        say: "Os tipos básicos. String é texto. Number é número. Boolean é verdadeiro ou falso. Undefined é sem valor ainda. Null é vazio de propósito.",
+        say: "Os tipos básicos. | String é texto. | Number é número. | Boolean é verdadeiro ou falso. | Undefined é sem valor ainda. | Null é vazio de propósito.",
         items: ["string — `'olá'`", "number — `42`, `3.14`", "boolean — `true` / `false`", "undefined — sem valor ainda", "null — vazio de propósito"],
       },
     },
     {
-      type: "quiz",
-      say: "Quick check. A counter that goes up every click. const or let?",
-      question: "A counter that goes up on every click: `const` or `let`?",
-      options: ["`const`", "`let`", "`var`"],
+      type: "fill",
+      say: "Your turn. This counter goes up on every click. Which keyword makes it work?",
+      question: "A counter that goes up on every click:",
+      code: "___ count = 0;\ncount = count + 1;",
+      choices: ["const", "let"],
       answerIndex: 1,
-      why: "The value changes, so `let`. `const` would throw an error on reassign.",
+      why: "The value changes, so let. With const, reassigning would throw an error.",
       pt: {
-        say: "Pergunta rápida. Um contador que sobe a cada clique. const ou let?",
-        question: "Um contador que sobe a cada clique: `const` ou `let`?",
-        options: ["`const`", "`let`", "`var`"],
-        why: "O valor muda, por isso `let`. Com `const` daria erro ao reatribuir.",
+        say: "Sua vez. Este contador sobe a cada clique. Qual palavra faz ele funcionar?",
+        question: "Um contador que sobe a cada clique:",
+        why: "O valor muda, por isso let. Com const, reatribuir daria erro.",
       },
     },
     {
@@ -137,11 +174,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-operators": [
     {
       type: "title",
-      say: "Operators do maths, compare values and combine conditions. A few of them hide classic traps.",
+      say: "Operators do maths, compare values and combine conditions. | A few of them hide classic traps.",
       headline: "Operators",
       sub: "Maths, ===, && and ||",
       pt: {
-        say: "Operadores fazem contas, comparam valores e combinam condições. Alguns escondem armadilhas clássicas.",
+        say: "Operadores fazem contas, comparam valores e combinam condições. | Alguns escondem armadilhas clássicas.",
         headline: "Operadores",
         sub: "Contas, ===, && e ||",
       },
@@ -168,11 +205,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "compare",
-      say: "Always use triple equals. It checks the value and the type. Double equals converts types and causes bugs.",
+      say: "Double equals converts types and causes hidden bugs. | Triple equals checks the value and the type. Always use it.",
       left: { label: "== avoid", items: ["`2 == '2'` → true", "Converts types", "Hidden bugs"] },
       right: { label: "=== use", items: ["`2 === '2'` → false", "Value and type", "Predictable"] },
       pt: {
-        say: "Use sempre o igual triplo. Ele compara o valor e o tipo. O igual duplo converte tipos e causa bugs.",
+        say: "O igual duplo converte tipos e causa bugs escondidos. | O igual triplo compara o valor e o tipo. Use sempre ele.",
         left: { label: "== evitar", items: ["`2 == '2'` → true", "Converte tipos", "Bugs escondidos"] },
         right: { label: "=== usar", items: ["`2 === '2'` → false", "Valor e tipo", "Previsível"] },
       },
@@ -193,20 +230,32 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "list",
-      say: "Logical operators. And is true if both are true. Or is true if at least one is. Not inverts.",
+      say: "Logical operators. | And is true if both are true. | Or is true if at least one is. | Not inverts.",
       items: ["`&&` — AND: both true", "`||` — OR: at least one true", "`!` — NOT: inverts"],
       pt: {
-        say: "Operadores lógicos. E é verdadeiro se os dois forem. Ou é verdadeiro se pelo menos um for. Not inverte.",
+        say: "Operadores lógicos. | E é verdadeiro se os dois forem. | Ou é verdadeiro se pelo menos um for. | Not inverte.",
         items: ["`&&` — E: os dois verdadeiros", "`||` — OU: pelo menos um verdadeiro", "`!` — NÃO: inverte"],
       },
     },
     {
       type: "list",
-      say: "Falsy values become false in an if. There are only six: false, zero, empty string, null, undefined and NaN. Everything else is truthy.",
+      say: "Falsy values become false in an if. There are only six: | false, zero, empty string, | null, undefined and NaN. | Everything else is truthy.",
       items: ["`false`, `0`, `''`", "`null`, `undefined`, `NaN`", "Everything else is truthy — even `'0'` and `[]`"],
       pt: {
-        say: "Valores falsy viram falso num if. São só seis: false, zero, string vazia, null, undefined e NaN. Todo o resto é truthy.",
+        say: "Valores falsy viram falso num if. São só seis: | false, zero, string vazia, | null, undefined e NaN. | Todo o resto é truthy.",
         items: ["`false`, `0`, `''`", "`null`, `undefined`, `NaN`", "Todo o resto é truthy — até `'0'` e `[]`"],
+      },
+    },
+    {
+      type: "truefalse",
+      say: "True or false? Careful, this is a classic trap.",
+      statement: "The string `'0'` is falsy.",
+      answer: false,
+      why: "Only the empty string is falsy. The string zero has a character inside, so it's truthy.",
+      pt: {
+        say: "Verdadeiro ou falso? Cuidado, esta é uma armadilha clássica.",
+        statement: "A string `'0'` é falsy.",
+        why: "Só a string vazia é falsy. A string zero tem um carácter dentro, por isso é truthy.",
       },
     },
     {
@@ -228,11 +277,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-conditionals": [
     {
       type: "title",
-      say: "Code makes decisions with if. If this is true, do that. Otherwise, do something else.",
+      say: "Code makes decisions with if. | If this is true, do that. Otherwise, do something else.",
       headline: "if, else & ternary",
       sub: "Making decisions in code",
       pt: {
-        say: "O código toma decisões com o if. Se isto for verdade, faz aquilo. Senão, faz outra coisa.",
+        say: "O código toma decisões com o if. | Se isto for verdade, faz aquilo. Senão, faz outra coisa.",
         headline: "if, else e ternário",
         sub: "Tomar decisões no código",
       },
@@ -269,11 +318,37 @@ export const reels: Record<string, ReelSceneInput[]> = {
       pt: { say: "O ternário é um if else curto que devolve um valor. Condição, ponto de interrogação, valor se verdade, dois pontos, valor se falso." },
     },
     {
+      type: "fill",
+      say: "Your turn. Complete the ternary.",
+      question: "Complete the ternary:",
+      code: "const label = age >= 18 ___ 'adult' : 'minor';",
+      choices: ["?", ":", "&&"],
+      answerIndex: 0,
+      why: "Condition, question mark, value if true, colon, value if false.",
+      pt: {
+        say: "Sua vez. Completa o ternário.",
+        question: "Completa o ternário:",
+        why: "Condição, interrogação, valor se verdadeiro, dois pontos, valor se falso.",
+      },
+    },
+    {
       type: "code",
       say: "Early return: leave the function as soon as you know the answer. The code stays flat and easy to read.",
       code: "function canEdit(user) {\n  if (!user) return false;\n  if (user.role === 'admin') return true;\n  return user.isOwner;\n}",
       highlight: [2, 3],
       pt: { say: "Early return: saia da função assim que souber a resposta. O código fica plano e fácil de ler." },
+    },
+    {
+      type: "truefalse",
+      say: "True or false?",
+      statement: "In an `if` / `else if` / `else` chain, more than one block can run.",
+      answer: false,
+      why: "JavaScript runs only the first block whose condition is true, and skips the rest.",
+      pt: {
+        say: "Verdadeiro ou falso?",
+        statement: "Numa cadeia `if` / `else if` / `else`, mais de um bloco pode rodar.",
+        why: "O JavaScript roda só o primeiro bloco cuja condição é verdadeira, e pula o resto.",
+      },
     },
     {
       type: "quiz",
@@ -294,11 +369,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-loops": [
     {
       type: "title",
-      say: "A loop repeats a block of code. Instead of writing the same line ten times, you write it once.",
+      say: "A loop repeats a block of code. | Instead of writing the same line ten times, you write it once.",
       headline: "Loops",
       sub: "for, for…of and while",
       pt: {
-        say: "Um loop repete um bloco de código. Em vez de escrever a mesma linha dez vezes, você escreve uma vez.",
+        say: "Um loop repete um bloco de código. | Em vez de escrever a mesma linha dez vezes, você escreve uma vez.",
         headline: "Loops",
         sub: "for, for…of e while",
       },
@@ -332,6 +407,16 @@ export const reels: Record<string, ReelSceneInput[]> = {
       pt: { say: "O for of passa por cada item de um array. Este é o padrão acumulador: começa em zero, soma dentro do loop, e usa depois." },
     },
     {
+      type: "visual",
+      kind: "boxes",
+      say: "Let's run it in slow motion. | total starts at zero. | First price: ten. | total is ten. | Next: twenty. | total is thirty. | Then five. | Final total: thirty five.",
+      labels: ["total = `0`", "price = `10`", "total = `10`", "price = `20`", "total = `30`", "price = `5`", "total = `35`"],
+      pt: {
+        say: "Vamos rodar em câmera lenta. | total começa em zero. | Primeiro preço: dez. | total fica dez. | Depois: vinte. | total fica trinta. | Depois cinco. | Total final: trinta e cinco.",
+        labels: ["total = `0`", "price = `10`", "total = `10`", "price = `20`", "total = `30`", "price = `5`", "total = `35`"],
+      },
+    },
+    {
       type: "code",
       say: "while repeats while a condition is true. Don't forget to change the variable, or the loop never ends.",
       code: "let n = 3;\nwhile (n > 0) {\n  console.log(n);\n  n--; // without this: infinite loop\n}",
@@ -343,25 +428,25 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "list",
-      say: "Two keywords. break exits the loop now. continue skips to the next round.",
+      say: "Two keywords. | break exits the loop now. | continue skips to the next round. | And remember the accumulator: start, update in the loop, use after.",
       items: ["`break` — exit the loop now", "`continue` — skip to the next round", "Accumulator: start, update in the loop, use after"],
       pt: {
-        say: "Duas palavras-chave. break sai do loop agora. continue pula para a próxima volta.",
+        say: "Duas palavras-chave. | break sai do loop agora. | continue pula para a próxima volta. | E lembra do acumulador: começa, atualiza no loop, usa depois.",
         items: ["`break` — sair do loop agora", "`continue` — pular para a próxima volta", "Acumulador: começar, atualizar no loop, usar depois"],
       },
     },
     {
-      type: "quiz",
-      say: "Last one. You want to sum all numbers in an array. What's the first step?",
-      question: "Summing an array — first step?",
-      options: ["`let total = 0` before the loop", "`total = 0` inside the loop", "Use `while (true)`"],
+      type: "fill",
+      say: "Last one. Sum all the numbers. Where should the total start?",
+      question: "Sum all the numbers:",
+      code: "let total = ___;\nfor (const n of nums) {\n  total += n;\n}",
+      choices: ["0", "nums", "''"],
       answerIndex: 0,
-      why: "The accumulator starts **before** the loop; inside, you only add to it.",
+      why: "The accumulator starts at zero, before the loop. Inside, you only add to it.",
       pt: {
-        say: "Última. Você quer somar todos os números de um array. Qual é o primeiro passo?",
-        question: "Somar um array — primeiro passo?",
-        options: ["`let total = 0` antes do loop", "`total = 0` dentro do loop", "Usar `while (true)`"],
-        why: "O acumulador começa **antes** do loop; lá dentro você só vai somando.",
+        say: "Última. Somar todos os números. Onde o total deve começar?",
+        question: "Somar todos os números:",
+        why: "O acumulador começa em zero, antes do loop. Lá dentro você só vai somando.",
       },
     },
   ],
@@ -369,21 +454,21 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-functions": [
     {
       type: "title",
-      say: "A function is a reusable block of code. It receives inputs and gives back an output.",
+      say: "A function is a reusable block of code. | It receives inputs and gives back an output.",
       headline: "Functions",
       sub: "Parameters and return",
       pt: {
-        say: "Uma função é um bloco de código reutilizável. Ela recebe entradas e devolve uma saída.",
+        say: "Uma função é um bloco de código reutilizável. | Ela recebe entradas e devolve uma saída.",
         headline: "Funções",
         sub: "Parâmetros e return",
       },
     },
     {
       type: "flow",
-      say: "Think of a machine. Inputs go in as parameters, the function does its work, and return sends the result back.",
+      say: "Think of a machine. | Inputs go in as parameters, | the function does its work, | return sends the result back, | and out comes five.",
       steps: ["Inputs: `2`, `3`", "`add(a, b)` does the work", "`return a + b`", "Output: `5`"],
       pt: {
-        say: "Pense numa máquina. As entradas entram como parâmetros, a função faz o trabalho, e o return devolve o resultado.",
+        say: "Pense numa máquina. | As entradas entram como parâmetros, | a função faz o trabalho, | o return devolve o resultado, | e sai cinco.",
         steps: ["Entradas: `2`, `3`", "`add(a, b)` faz o trabalho", "`return a + b`", "Saída: `5`"],
       },
     },
@@ -419,12 +504,41 @@ export const reels: Record<string, ReelSceneInput[]> = {
       },
     },
     {
+      type: "visual",
+      kind: "stack",
+      say: "When a function calls another, JavaScript keeps a call stack. | main starts. | It calls greet. | greet calls format. | format returns, | and then greet returns.",
+      labels: ["`main()`", "`greet('Ana')`", "`format('Ana')`", "-", "-"],
+      pt: {
+        say: "Quando uma função chama outra, o JavaScript mantém uma pilha de chamadas. | main começa. | Ela chama greet. | greet chama format. | format retorna, | e depois greet retorna.",
+        labels: ["`main()`", "`greet('Ana')`", "`format('Ana')`", "-", "-"],
+      },
+    },
+    {
       type: "list",
-      say: "Good functions do one thing, have a verb as name, and when possible are pure: same input, same output, no side effects.",
+      say: "Good functions | do one thing, | have a verb as name, | and when possible are pure: same input, same output. | Pure functions are easy to test.",
       items: ["One job per function", "Verb names: `calculateTotal`, `isValid`", "Pure: same input → same output", "Pure functions are easy to test"],
       pt: {
-        say: "Boas funções fazem uma coisa só, têm um verbo no nome, e quando possível são puras: mesma entrada, mesma saída, sem efeitos colaterais.",
+        say: "Boas funções | fazem uma coisa só, | têm um verbo no nome, | e quando possível são puras: mesma entrada, mesma saída. | Funções puras são fáceis de testar.",
         items: ["Uma tarefa por função", "Nome com verbo: `calculateTotal`, `isValid`", "Pura: mesma entrada → mesma saída", "Funções puras são fáceis de testar"],
+      },
+    },
+    {
+      type: "reveal",
+      say: "Three words you'll hear in every interview. Tap each card.",
+      cards: [
+        { front: "Parameter", back: "The name in the definition: `a`, `b`" },
+        { front: "Argument", back: "The real value you pass: `2`, `3`" },
+        { front: "return", back: "Sends the result back and stops the function" },
+      ],
+      why: "Parameters are the names, arguments are the values, and return gives the result back.",
+      pt: {
+        say: "Três palavras que você vai ouvir em toda entrevista. Toca em cada cartão.",
+        cards: [
+          { front: "Parâmetro", back: "O nome na definição: `a`, `b`" },
+          { front: "Argumento", back: "O valor real que você passa: `2`, `3`" },
+          { front: "return", back: "Devolve o resultado e termina a função" },
+        ],
+        why: "Parâmetros são os nomes, argumentos são os valores, e o return devolve o resultado.",
       },
     },
     {

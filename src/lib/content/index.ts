@@ -1,4 +1,6 @@
 import { rawContent } from "@content/index";
+import { splitBeats } from "@/lib/reel-audio";
+import { beatsProblem } from "@/lib/reel";
 import { exerciseSchema, termSchema, topicSchema, type Exercise, type Lesson, type StudyItem, type Term, type Topic } from "./schema";
 
 export interface Content {
@@ -9,7 +11,7 @@ export interface Content {
   itemById: Map<string, StudyItem>;
 }
 
-/** O PT de cada cena tem de ter o mesmo nº de passos/itens/opções que o EN. */
+/** O PT de cada cena tem de ter o mesmo nº de passos/itens/opções/beats que o EN. */
 function checkReel(lesson: Lesson): string[] {
   const errs: string[] = [];
   lesson.reel.forEach((sc, i) => {
@@ -25,6 +27,17 @@ function checkReel(lesson: Lesson): string[] {
       same(sc.options, sc.pt.options, "options");
       if (sc.answerIndex >= sc.options.length) errs.push(`${at}: answerIndex out of range`);
     }
+    if (sc.type === "visual") same(sc.labels, sc.pt.labels, "labels");
+    if (sc.type === "order") same(sc.items, sc.pt.items, "items");
+    if (sc.type === "reveal") same(sc.cards, sc.pt.cards, "cards");
+    if (sc.type === "fill") {
+      for (const [code, where] of [[sc.code, "code"], [sc.pt.code, "pt.code"]] as const)
+        if (code !== undefined && code.split("___").length !== 2) errs.push(`${at}: ${where} must have exactly one ___`);
+      if (sc.answerIndex >= sc.choices.length) errs.push(`${at}: answerIndex out of range`);
+    }
+    if (splitBeats(sc.say).length !== splitBeats(sc.pt.say).length) errs.push(`${at}: pt.say has a different number of | beats`);
+    const bp = beatsProblem(sc);
+    if (bp) errs.push(`${at}: ${bp}`);
     if (sc.type === "code") {
       const lines = sc.code.split("\n").length;
       if (sc.highlight.some((h) => h > lines)) errs.push(`${at}: highlight line out of range`);
@@ -51,6 +64,14 @@ export function buildContent(raw = rawContent): Content {
     if (!topicBySlug.has(ex.topic)) errors.push(`exercise "${ex.id}": unknown topic "${ex.topic}"`);
     if (ex.kind === "quiz" && ex.answerIndex >= ex.options.length) errors.push(`exercise "${ex.id}": answerIndex out of range`);
     if (ex.kind === "lesson") errors.push(...checkReel(ex));
+    if (ex.kind === "review") {
+      const lines = ex.code.split("\n").length;
+      if (ex.issues.some((i) => i.line > lines)) errors.push(`exercise "${ex.id}": issue line out of range`);
+      if (ex.pt.issues.length !== ex.issues.length) errors.push(`exercise "${ex.id}": pt.issues has ${ex.pt.issues.length}, en has ${ex.issues.length}`);
+      if (new Set(ex.issues.map((i) => i.line)).size !== ex.issues.length) errors.push(`exercise "${ex.id}": two issues on the same line`);
+    }
+    if ((ex.kind === "concept" || ex.kind === "behavioral") && ex.rubricKeys?.length !== ex.rubric.length)
+      errors.push(`exercise "${ex.id}": rubricKeys has ${ex.rubricKeys?.length ?? "no"} entries, rubric has ${ex.rubric.length}`);
     exercises.push(ex);
   }
 

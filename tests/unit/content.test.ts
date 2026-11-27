@@ -8,7 +8,7 @@ const codeExercises = content.exercises.filter((e) => e.kind === "code");
 describe("content", () => {
   it("is valid and has at least one item of each kind", () => {
     const kinds = new Set(content.exercises.map((e) => e.kind));
-    expect([...kinds].sort()).toEqual(["behavioral", "code", "concept", "lesson", "quiz"]);
+    expect([...kinds].sort()).toEqual(["behavioral", "code", "concept", "lesson", "quiz", "review", "sql"]);
     expect(content.terms.length).toBeGreaterThan(0);
   });
 

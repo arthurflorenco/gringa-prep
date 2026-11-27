@@ -26,7 +26,8 @@ export const topics: Topic[] = [
 
   // Semana 4 — Assíncrono e HTTP
   { slug: "js-event-loop", name: "JavaScript assíncrono: promises, async/await, event loop", area: "frontend", interviewWeight: 3, week: 4 },
-  { slug: "rest-http", name: "HTTP, APIs REST e códigos de status", area: "backend", interviewWeight: 2, week: 4 },
+  { slug: "rest-http", name: "HTTP, APIs REST e códigos de status", area: "backend", interviewWeight: 3, week: 4 },
+  { slug: "node-api", name: "Node.js: criar uma API (rotas, middleware, validação)", area: "backend", interviewWeight: 3, week: 4 },
 
   // Semana 5 — TypeScript e React
   { slug: "typescript", name: "TypeScript básico", area: "frontend", interviewWeight: 3, week: 5 },
@@ -38,6 +39,7 @@ export const topics: Topic[] = [
 
   // Semana 7 — Dados, back-end e segurança
   { slug: "sql-joins", name: "SQL básico e joins", area: "backend", interviewWeight: 3, week: 7 },
+  { slug: "sql-transactions", name: "SQL: chaves, constraints e transações (ACID)", area: "backend", interviewWeight: 3, week: 7 },
   { slug: "data-modeling", name: "Modelagem de dados (1:N, N:N)", area: "backend", interviewWeight: 3, week: 7 },
   { slug: "authn-authz", name: "Autenticação vs autorização", area: "security", interviewWeight: 3, week: 7 },
   { slug: "rls", name: "Row Level Security (Postgres/Supabase)", area: "security", interviewWeight: 3, week: 7 },
@@ -50,5 +52,8 @@ export const topics: Topic[] = [
   { slug: "web-performance", name: "Performance e acessibilidade web", area: "frontend", interviewWeight: 2, week: 8 },
   { slug: "tradeoffs", name: "Decisões técnicas e trade-offs", area: "architecture", interviewWeight: 3, week: 8 },
   { slug: "soft-delete-audit", name: "Soft delete e log de auditoria", area: "architecture", interviewWeight: 3, week: 8 },
-  { slug: "ai-safety", name: "IA no produto e no desenvolvimento", area: "ai", interviewWeight: 3, week: 8 },
+  { slug: "ai-safety", name: "IA no desenvolvimento: rever código gerado", area: "ai", interviewWeight: 3, week: 8 },
+  { slug: "ai-llm-basics", name: "LLMs no produto: tokens, contexto, alucinação, custo", area: "ai", interviewWeight: 3, week: 8 },
+  { slug: "ai-rag", name: "RAG: embeddings e busca vetorial", area: "ai", interviewWeight: 3, week: 8 },
+  { slug: "ai-product", name: "Construir features de IA: prompts, tools, evals, guardrails", area: "ai", interviewWeight: 3, week: 8 },
 ];

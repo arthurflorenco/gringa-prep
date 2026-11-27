@@ -11,13 +11,16 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "content:check": "tsx scripts/check-content.ts",
-    "check": "npm run typecheck && npm run lint && npm run content:check && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run content:check && npm run test",
+    "reel:audio": "tsx scripts/gen-reel-audio.ts"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/lang-sql": "^6.10.0",
     "@codemirror/language": "^6.13.1",
     "@codemirror/state": "^6.7.6",
     "@codemirror/view": "^6.44.0",
+    "@electric-sql/pglite": "^0.6.0",
     "@gsap/react": "^2.1.2",
     "@lezer/highlight": "^1.2.5",
     "@uiw/react-codemirror": "^4.25.13",

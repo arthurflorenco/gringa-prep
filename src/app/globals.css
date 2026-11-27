@@ -94,12 +94,23 @@ body {
   }
 }
 
-/* Barra de progresso do reel (pausa com animation-play-state). */
-@keyframes reel-fill {
-  from {
-    transform: scaleX(0);
+
+/* Fundo do reel: manchas que derivam devagar. */
+@keyframes reel-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
   }
-  to {
-    transform: scaleX(1);
+  33% {
+    transform: translate(8%, -6%) scale(1.12);
   }
+  66% {
+    transform: translate(-6%, 5%) scale(0.92);
+  }
+}
+.reel-blob {
+  animation: reel-drift 14s ease-in-out infinite;
+}
+.reel-paused .reel-blob {
+  animation-play-state: paused;
 }

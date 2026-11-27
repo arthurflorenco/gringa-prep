@@ -15,6 +15,9 @@ export function localize<E extends Exercise>(exercise: E, lang: Lang): E {
   if (lang === "en") return exercise;
   const out = overlay(exercise);
   if (out.kind === "lesson") return { ...out, reel: out.reel.map((s) => overlay(s) as ReelScene) };
+  // Review: o PT só traduz o comentário; linha e tipo vêm do EN.
+  if (exercise.kind === "review" && out.kind === "review")
+    return { ...out, issues: exercise.issues.map((iss, i) => ({ ...iss, comment: exercise.pt.issues[i]?.comment ?? iss.comment })) } as E;
   return out;
 }
 

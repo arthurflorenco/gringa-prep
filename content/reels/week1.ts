@@ -5,33 +5,43 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-how-web-works": [
     {
       type: "title",
-      say: "What really happens when you type a website address and press Enter? Let's follow the trip.",
+      say: "What really happens when you type a website address and press Enter? | Let's follow the trip.",
       headline: "How the web works",
       sub: "From URL to page in 5 steps",
       pt: {
-        say: "O que acontece de verdade quando você digita o endereço de um site e aperta Enter? Vamos seguir a viagem.",
+        say: "O que acontece de verdade quando você digita o endereço de um site e aperta Enter? | Vamos seguir a viagem.",
         headline: "Como a web funciona",
         sub: "Da URL à página em 5 passos",
       },
     },
     {
       type: "compare",
-      say: "Every website is a conversation between two computers. The client asks. The server answers.",
+      say: "Every website is a conversation between two computers. | The client asks. | The server answers.",
       left: { label: "Client", items: ["Your browser", "Asks for pages", "Chrome, Safari, your phone"] },
       right: { label: "Server", items: ["A computer far away", "Stores the site", "Answers the requests"] },
       pt: {
-        say: "Todo site é uma conversa entre dois computadores. O cliente pede. O servidor responde.",
+        say: "Todo site é uma conversa entre dois computadores. | O cliente pede. | O servidor responde.",
         left: { label: "Cliente", items: ["O seu navegador", "Pede as páginas", "Chrome, Safari, o seu celular"] },
         right: { label: "Servidor", items: ["Um computador longe", "Guarda o site", "Responde aos pedidos"] },
       },
     },
     {
       type: "flow",
-      say: "Step by step: you type the URL, DNS finds the server's IP address, the browser sends a request, the server sends a response, and the browser draws the page.",
+      say: "Step by step: | you type the URL, | DNS finds the server's IP address, | the browser sends a request, | the server sends a response, | and the browser draws the page.",
       steps: ["You type `shop.com/products`", "DNS: `shop.com` → `93.184.216.34`", "Browser sends an HTTP request", "Server sends an HTTP response", "Browser renders the page"],
       pt: {
-        say: "Passo a passo: você digita a URL, o DNS encontra o endereço IP do servidor, o navegador envia um pedido, o servidor manda uma resposta, e o navegador desenha a página.",
+        say: "Passo a passo: | você digita a URL, | o DNS encontra o endereço IP do servidor, | o navegador envia um pedido, | o servidor manda uma resposta, | e o navegador desenha a página.",
         steps: ["Você digita `shop.com/products`", "DNS: `shop.com` → `93.184.216.34`", "O navegador envia um pedido HTTP", "O servidor manda uma resposta HTTP", "O navegador desenha a página"],
+      },
+    },
+    {
+      type: "visual",
+      kind: "request",
+      say: "Watch the trip. | Your browser asks DNS for the address, | then goes straight to the server, | and the response travels back to you.",
+      labels: ["Browser", "DNS · finds the IP", "Server · `93.184.216.34`"],
+      pt: {
+        say: "Olha a viagem. | O seu navegador pergunta o endereço ao DNS, | depois vai direto ao servidor, | e a resposta volta até você.",
+        labels: ["Navegador", "DNS · acha o IP", "Servidor · `93.184.216.34`"],
       },
     },
     {
@@ -50,20 +60,30 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "list",
-      say: "The response always brings a status code. 200 means OK. 404 means not found. 500 means the server broke.",
+      say: "The response always brings a status code. | 200 means OK. | 404 means not found. | 500 means the server broke.",
       items: ["`200` — OK, here's your page", "`404` — not found", "`500` — error on the server"],
       pt: {
-        say: "A resposta sempre traz um código de status. 200 quer dizer OK. 404 quer dizer não encontrado. 500 quer dizer que o servidor quebrou.",
+        say: "A resposta sempre traz um código de status. | 200 quer dizer OK. | 404 quer dizer não encontrado. | 500 quer dizer que o servidor quebrou.",
         items: ["`200` — OK, aqui está a página", "`404` — não encontrado", "`500` — erro no servidor"],
       },
     },
     {
-      type: "list",
-      say: "The browser reads three languages. HTML is the structure. CSS is the look. JavaScript is the behaviour.",
-      items: ["HTML = structure (the skeleton)", "CSS = appearance (colours, layout)", "JavaScript = behaviour (clicks, updates)"],
+      type: "reveal",
+      say: "The browser reads three languages. Tap each card to see what it does.",
+      cards: [
+        { front: "HTML", back: "Structure — the skeleton of the page" },
+        { front: "CSS", back: "Appearance — colours, spacing, layout" },
+        { front: "JavaScript", back: "Behaviour — clicks, updates, logic" },
+      ],
+      why: "HTML is the structure, CSS is the look, and JavaScript is the behaviour.",
       pt: {
-        say: "O navegador lê três linguagens. HTML é a estrutura. CSS é a aparência. JavaScript é o comportamento.",
-        items: ["HTML = estrutura (o esqueleto)", "CSS = aparência (cores, layout)", "JavaScript = comportamento (cliques, atualizações)"],
+        say: "O navegador lê três linguagens. Toca em cada cartão para ver o que ela faz.",
+        cards: [
+          { front: "HTML", back: "Estrutura — o esqueleto da página" },
+          { front: "CSS", back: "Aparência — cores, espaços, layout" },
+          { front: "JavaScript", back: "Comportamento — cliques, atualizações, lógica" },
+        ],
+        why: "HTML é a estrutura, CSS é a aparência, e JavaScript é o comportamento.",
       },
     },
     {
@@ -82,11 +102,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "title",
-      say: "Summary: front-end is what runs in the browser. Back-end is what runs on the server. You just learned how they talk.",
+      say: "Summary: front-end is what runs in the browser. Back-end is what runs on the server. | You just learned how they talk.",
       headline: "Front-end ↔ back-end",
       sub: "Browser asks, server answers.",
       pt: {
-        say: "Resumo: front-end é o que roda no navegador. Back-end é o que roda no servidor. Você acabou de aprender como eles conversam.",
+        say: "Resumo: front-end é o que roda no navegador. Back-end é o que roda no servidor. | Você acabou de aprender como eles conversam.",
         headline: "Front-end ↔ back-end",
         sub: "O navegador pede, o servidor responde.",
       },
@@ -96,11 +116,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-html-basics": [
     {
       type: "title",
-      say: "HTML describes what is on the page. Titles, text, links, images. Let's see how it's written.",
+      say: "HTML describes what is on the page. | Titles, text, links, images. Let's see how it's written.",
       headline: "HTML: the skeleton",
       sub: "Tags, elements and attributes",
       pt: {
-        say: "O HTML descreve o que existe na página. Títulos, textos, links, imagens. Vamos ver como se escreve.",
+        say: "O HTML descreve o que existe na página. | Títulos, textos, links, imagens. Vamos ver como se escreve.",
         headline: "HTML: o esqueleto",
         sub: "Tags, elementos e atributos",
       },
@@ -141,21 +161,31 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "compare",
-      say: "A page has two parts. The head has information about the page. The body has what the user sees.",
+      say: "A page has two parts. | The head has information about the page. | The body has what the user sees.",
       left: { label: "<head>", items: ["Page title", "Fonts and styles", "Invisible info"] },
       right: { label: "<body>", items: ["Header, main, footer", "Text and images", "Everything you see"] },
       pt: {
-        say: "Uma página tem duas partes. O head tem informação sobre a página. O body tem o que o usuário vê.",
+        say: "Uma página tem duas partes. | O head tem informação sobre a página. | O body tem o que o usuário vê.",
         left: { label: "<head>", items: ["Título da página", "Fontes e estilos", "Informação invisível"] },
         right: { label: "<body>", items: ["Header, main, footer", "Textos e imagens", "Tudo o que você vê"] },
       },
     },
     {
+      type: "visual",
+      kind: "tree",
+      say: "Inside the browser, HTML becomes a tree, called the DOM. | html at the top. | head, | with the title. | Then body, | with a heading, | a paragraph, | and an image.",
+      labels: ["`<html>`", " `<head>`", "  `<title>`", " `<body>`", "  `<h1>`", "  `<p>`", "  `<img>`"],
+      pt: {
+        say: "Dentro do navegador, o HTML vira uma árvore, chamada DOM. | html no topo. | head, | com o title. | Depois body, | com um título, | um parágrafo, | e uma imagem.",
+        labels: ["`<html>`", " `<head>`", "  `<title>`", " `<body>`", "  `<h1>`", "  `<p>`", "  `<img>`"],
+      },
+    },
+    {
       type: "list",
-      say: "Semantic HTML means using the tag that describes the meaning. A button for buttons, not a div. It helps accessibility and SEO.",
+      say: "Semantic HTML means using the tag that describes the meaning. | A button for buttons, not a div. | nav for navigation. | And main, article, form and label for the rest.",
       items: ["`<button>` for buttons — not a `<div>`", "`<nav>` for navigation", "`<main>`, `<article>`, `<form>`, `<label>`"],
       pt: {
-        say: "HTML semântico é usar a tag que descreve o significado. Um button para botões, não uma div. Isso ajuda a acessibilidade e o SEO.",
+        say: "HTML semântico é usar a tag que descreve o significado. | Um button para botões, não uma div. | nav para navegação. | E main, article, form e label para o resto.",
         items: ["`<button>` para botões — não uma `<div>`", "`<nav>` para navegação", "`<main>`, `<article>`, `<form>`, `<label>`"],
       },
     },
@@ -173,16 +203,31 @@ export const reels: Record<string, ReelSceneInput[]> = {
         why: "`<button>` já funciona com teclado e leitores de tela, sem esforço.",
       },
     },
+    {
+      type: "fill",
+      say: "Your turn. Make this image accessible for people using a screen reader.",
+      question: "Make the image accessible:",
+      code: '<img src="cat.png" ___="A sleeping cat" />',
+      choices: ["alt", "href", "class"],
+      answerIndex: 0,
+      why: "alt describes the image for people who can't see it, and shows up if the image fails to load.",
+      pt: {
+        say: "Sua vez. Deixe esta imagem acessível para quem usa leitor de tela.",
+        question: "Deixe a imagem acessível:",
+        code: '<img src="gato.png" ___="Um gato dormindo" />',
+        why: "O alt descreve a imagem para quem não consegue ver, e aparece se a imagem não carregar.",
+      },
+    },
   ],
 
   "lesson-css-basics": [
     {
       type: "title",
-      say: "HTML is the skeleton. CSS is the clothes. It decides colours, spacing and where things go.",
+      say: "HTML is the skeleton. CSS is the clothes. | It decides colours, spacing and where things go.",
       headline: "CSS: the look",
       sub: "Selectors, box model, flexbox",
       pt: {
-        say: "O HTML é o esqueleto. O CSS é a roupa. Ele decide cores, espaçamentos e onde cada coisa fica.",
+        say: "O HTML é o esqueleto. O CSS é a roupa. | Ele decide cores, espaçamentos e onde cada coisa fica.",
         headline: "CSS: a aparência",
         sub: "Seletores, box model, flexbox",
       },
@@ -196,21 +241,33 @@ export const reels: Record<string, ReelSceneInput[]> = {
     },
     {
       type: "compare",
-      say: "The two selectors you'll use most. A class, with a dot, can be reused many times. An id, with a hash, is unique on the page.",
+      say: "The two selectors you'll use most. | A class, with a dot, can be reused many times. | An id, with a hash, is unique on the page.",
       left: { label: ".class", items: ["Starts with a dot", "Reusable", "The most used"] },
       right: { label: "#id", items: ["Starts with #", "Unique on the page", "Use less"] },
       pt: {
-        say: "Os dois seletores que você mais vai usar. Uma classe, com ponto, pode ser reutilizada muitas vezes. Um id, com cerquilha, é único na página.",
+        say: "Os dois seletores que você mais vai usar. | Uma classe, com ponto, pode ser reutilizada muitas vezes. | Um id, com cerquilha, é único na página.",
         left: { label: ".classe", items: ["Começa com ponto", "Reutilizável", "A mais usada"] },
         right: { label: "#id", items: ["Começa com #", "Único na página", "Usar menos"] },
       },
     },
     {
+      type: "truefalse",
+      say: "True or false? Swipe the card.",
+      statement: "You can give the same `id` to many elements on the same page.",
+      answer: false,
+      why: "An id must be unique on the page. To style many elements, use a class.",
+      pt: {
+        say: "Verdadeiro ou falso? Arrasta o cartão.",
+        statement: "Você pode dar o mesmo `id` a vários elementos na mesma página.",
+        why: "Um id tem de ser único na página. Para estilizar vários elementos, use uma classe.",
+      },
+    },
+    {
       type: "flow",
-      say: "The box model. Every element is a box. From inside to outside: content, padding, border, and margin.",
+      say: "The box model. Every element is a box. From inside to outside: | content, | padding, | border, | and margin.",
       steps: ["content", "padding — space inside", "border", "margin — space outside"],
       pt: {
-        say: "O box model. Todo elemento é uma caixa. De dentro para fora: conteúdo, padding, borda e margem.",
+        say: "O box model. Todo elemento é uma caixa. De dentro para fora: | conteúdo, | padding, | borda | e margem.",
         steps: ["conteúdo (content)", "padding — espaço de dentro", "borda (border)", "margin — espaço de fora"],
       },
     },
@@ -236,17 +293,17 @@ export const reels: Record<string, ReelSceneInput[]> = {
       pt: { say: "O flexbox coloca os filhos numa linha e alinha. justify-content trabalha no eixo principal, align-items no eixo cruzado." },
     },
     {
-      type: "quiz",
-      say: "Last one. How do you center something both horizontally and vertically?",
-      question: "Center something both ways?",
-      options: ["`display: flex` + `justify-content: center` + `align-items: center`", "`margin: 16px`", "`color: center`"],
-      answerIndex: 0,
-      why: "That trio is the classic way to center with flexbox.",
+      type: "fill",
+      say: "Last one. This box should center its children both ways. What's missing?",
+      question: "Center the children both ways:",
+      code: ".row {\n  display: ___;\n  justify-content: center;\n  align-items: center;\n}",
+      choices: ["block", "flex", "center"],
+      answerIndex: 1,
+      why: "display flex, plus justify-content and align-items center, is the classic way to center.",
       pt: {
-        say: "Última. Como você centraliza algo na horizontal e na vertical?",
-        question: "Centralizar algo nos dois sentidos?",
-        options: ["`display: flex` + `justify-content: center` + `align-items: center`", "`margin: 16px`", "`color: center`"],
-        why: "Esse trio é a forma clássica de centralizar com flexbox.",
+        say: "Última. Esta caixa deve centralizar os filhos nos dois sentidos. O que falta?",
+        question: "Centralizar os filhos nos dois sentidos:",
+        why: "display flex, mais justify-content e align-items center, é a forma clássica de centralizar.",
       },
     },
   ],
@@ -254,11 +311,11 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-terminal": [
     {
       type: "title",
-      say: "The terminal lets you control the computer by typing. Developers use it every day. You only need eight commands to start.",
+      say: "The terminal lets you control the computer by typing. Developers use it every day. | You only need eight commands to start.",
       headline: "The terminal",
       sub: "8 commands you need",
       pt: {
-        say: "O terminal deixa você controlar o computador digitando. Desenvolvedores usam todo dia. Para começar, você só precisa de oito comandos.",
+        say: "O terminal deixa você controlar o computador digitando. Desenvolvedores usam todo dia. | Para começar, você só precisa de oito comandos.",
         headline: "O terminal",
         sub: "8 comandos de que você precisa",
       },
@@ -281,6 +338,16 @@ export const reels: Record<string, ReelSceneInput[]> = {
       pt: {
         say: "Para criar coisas: mkdir cria uma pasta. touch cria um arquivo vazio.",
         code: "mkdir my-app      # criar uma pasta\ntouch index.html  # criar um arquivo",
+      },
+    },
+    {
+      type: "visual",
+      kind: "tree",
+      say: "Folders are a tree. | Your home folder, | projects inside it, | then my-app, | with index.html | and package.json.",
+      labels: ["`~` (home)", " `projects/`", "  `my-app/`", "   `index.html`", "   `package.json`"],
+      pt: {
+        say: "As pastas formam uma árvore. | A sua pasta pessoal, | projects dentro dela, | depois my-app, | com index.html | e package.json.",
+        labels: ["`~` (home)", " `projects/`", "  `my-app/`", "   `index.html`", "   `package.json`"],
       },
     },
     {
@@ -308,26 +375,37 @@ export const reels: Record<string, ReelSceneInput[]> = {
       },
     },
     {
+      type: "order",
+      say: "Your turn. Put these commands in order to create a project and start it.",
+      question: "Create a project and start it:",
+      items: ["`mkdir my-app`", "`cd my-app`", "`npm install`", "`npm run dev`"],
+      why: "First create the folder, enter it, install the packages, and only then start the project.",
+      pt: {
+        say: "Sua vez. Põe estes comandos na ordem para criar um projeto e ligá-lo.",
+        question: "Criar um projeto e ligá-lo:",
+        items: ["`mkdir my-app`", "`cd my-app`", "`npm install`", "`npm run dev`"],
+        why: "Primeiro cria a pasta, entra nela, instala os pacotes, e só então liga o projeto.",
+      },
+    },
+    {
       type: "list",
-      say: "Two shortcuts that save your life. Control C stops a running command. Tab completes names for you.",
+      say: "Two shortcuts that save your life. | Control C stops a running command. | Tab completes names for you. | And a package is code someone else wrote, that you reuse.",
       items: ["`Ctrl + C` — stop a running command", "`Tab` — auto-complete names", "A package = code someone else wrote that you reuse"],
       pt: {
-        say: "Dois atalhos que salvam a sua vida. Control C para um comando que está rodando. Tab completa os nomes para você.",
+        say: "Dois atalhos que salvam a sua vida. | Control C para um comando que está rodando. | Tab completa os nomes para você. | E um pacote é código que outra pessoa escreveu e você reutiliza.",
         items: ["`Ctrl + C` — parar um comando", "`Tab` — completar nomes", "Pacote = código que outra pessoa escreveu e você reutiliza"],
       },
     },
     {
-      type: "quiz",
-      say: "Last one. The dev server is running and you want to stop it. What do you press?",
-      question: "Stop the running dev server?",
-      options: ["`Tab`", "`Ctrl + C`", "`cd ..`"],
-      answerIndex: 1,
-      why: "`Ctrl + C` interrupts whatever is running in the terminal.",
+      type: "truefalse",
+      say: "Last one. True or false?",
+      statement: "Pressing `Tab` stops the dev server that is running.",
+      answer: false,
+      why: "Tab completes names. To stop a running command, press Control C.",
       pt: {
-        say: "Última. O servidor de desenvolvimento está rodando e você quer parar. O que você aperta?",
-        question: "Parar o servidor que está rodando?",
-        options: ["`Tab`", "`Ctrl + C`", "`cd ..`"],
-        why: "`Ctrl + C` interrompe o que estiver rodando no terminal.",
+        say: "Última. Verdadeiro ou falso?",
+        statement: "Apertar `Tab` para o servidor de desenvolvimento que está rodando.",
+        why: "O Tab completa nomes. Para parar um comando que está rodando, aperta Control C.",
       },
     },
   ],
@@ -335,31 +413,31 @@ export const reels: Record<string, ReelSceneInput[]> = {
   "lesson-git-basics": [
     {
       type: "title",
-      say: "Git saves the history of your code. Every version, who changed what, and why. GitHub keeps it online so the team can share it.",
+      say: "Git saves the history of your code. Every version, who changed what, and why. | GitHub keeps it online so the team can share it.",
       headline: "Git & GitHub",
       sub: "Commits, branches, pull requests",
       pt: {
-        say: "O Git guarda o histórico do seu código. Cada versão, quem mudou o quê, e porquê. O GitHub guarda isso online para a equipe partilhar.",
+        say: "O Git guarda o histórico do seu código. Cada versão, quem mudou o quê, e porquê. | O GitHub guarda isso online para a equipe partilhar.",
         headline: "Git e GitHub",
         sub: "Commits, branches, pull requests",
       },
     },
     {
       type: "list",
-      say: "The vocabulary. A repo is a project folder tracked by Git. A commit is a saved snapshot. A branch is a separate line of work.",
+      say: "The vocabulary. | A repo is a project folder tracked by Git. | A commit is a saved snapshot. | A branch is a separate line of work. | And main is the stable branch.",
       items: ["Repo — a project tracked by Git", "Commit — a snapshot with a message", "Branch — a separate line of work", "`main` — the stable branch"],
       pt: {
-        say: "O vocabulário. Um repo é uma pasta de projeto controlada pelo Git. Um commit é uma foto salva do código. Uma branch é uma linha de trabalho separada.",
+        say: "O vocabulário. | Um repo é uma pasta de projeto controlada pelo Git. | Um commit é uma foto salva do código. | Uma branch é uma linha de trabalho separada. | E a main é a branch estável.",
         items: ["Repo — projeto controlado pelo Git", "Commit — uma foto do código com mensagem", "Branch — linha de trabalho separada", "`main` — a branch estável"],
       },
     },
     {
       type: "compare",
-      say: "Push sends your commits to GitHub. Pull brings other people's commits to your computer.",
+      say: "Push sends your commits to GitHub. | Pull brings other people's commits to your computer.",
       left: { label: "push ↑", items: ["Your computer → GitHub", "Share your work"] },
       right: { label: "pull ↓", items: ["GitHub → your computer", "Get the team's work"] },
       pt: {
-        say: "Push envia os seus commits para o GitHub. Pull traz os commits das outras pessoas para o seu computador.",
+        say: "Push envia os seus commits para o GitHub. | Pull traz os commits das outras pessoas para o seu computador.",
         left: { label: "push ↑", items: ["Seu computador → GitHub", "Partilhar o seu trabalho"] },
         right: { label: "pull ↓", items: ["GitHub → seu computador", "Receber o trabalho da equipe"] },
       },
@@ -386,11 +464,24 @@ export const reels: Record<string, ReelSceneInput[]> = {
       pt: { say: "O fluxo do dia a dia. Criar uma branch, mudar arquivos, add, commit com uma mensagem clara, e push." },
     },
     {
+      type: "order",
+      say: "Your turn. Put the daily Git flow in order.",
+      question: "The daily Git flow:",
+      items: ["`git switch -c feat/login`", "`git add .`", "`git commit -m \"feat: login\"`", "`git push`"],
+      why: "Branch first, then add the changes, commit them with a message, and push to GitHub.",
+      pt: {
+        say: "Sua vez. Põe o fluxo do dia a dia do Git na ordem.",
+        question: "O fluxo do dia a dia no Git:",
+        items: ["`git switch -c feat/login`", "`git add .`", "`git commit -m \"feat: login\"`", "`git push`"],
+        why: "Primeiro a branch, depois add das mudanças, commit com mensagem, e push para o GitHub.",
+      },
+    },
+    {
       type: "flow",
-      say: "Then you open a pull request. A teammate reviews the code, and only then it's merged into main.",
+      say: "You work on a branch, | then open a pull request. | A teammate reviews the code, | and only then it's merged into main.",
       steps: ["Branch `feat/login`", "Pull request", "Code review", "Merge into `main`"],
       pt: {
-        say: "Depois você abre um pull request. Um colega revisa o código, e só então ele entra na main.",
+        say: "Você trabalha numa branch, | depois abre um pull request. | Um colega revisa o código, | e só então ele entra na main.",
         steps: ["Branch `feat/login`", "Pull request", "Revisão de código", "Merge na `main`"],
       },
     },

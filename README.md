@@ -4,7 +4,7 @@
 
 Every day you get a short session (~45 min) built from an 8-week track that starts **from zero** (how the web works, HTML, CSS, Git, JavaScript basics) and ends at interview level (React, Next.js, SQL, auth, testing, architecture):
 
-- **Lesson of the day** — a short, vertical **reel** (animated scenes, narrated by your browser's built-in voice, with quick questions you must answer to continue), plus the full text version.
+- **Lesson of the day** — a short, vertical **reel**: animated scenes synced to a natural narration (generated offline with the open-source [Kokoro](https://github.com/hexgrad/kokoro) TTS), interactive steps (drag to order, fill the code, true/false, flip cards, quizzes), XP and combos, plus the full text version.
 - **Review** — questions from previous days, scheduled with [FSRS](https://github.com/open-spaced-repetition/ts-fsrs) spaced repetition (the algorithm behind modern Anki).
 - **Technical terms** — English vocabulary with a ready-to-use interview sentence.
 - **Concepts** — open questions you answer *in English*, then compare against a model answer and a rubric.
@@ -45,8 +45,9 @@ The session for a day is built once and stored, so it doesn't change while you w
 
 1. Pick a topic slug from `content/topics.ts` (or add one).
 2. Add an object to a file in `content/exercises/` (`concept`, `quiz`, `code`, `behavioral`) or `content/lessons/` (`lesson` — its reel goes in `content/reels/`). Every item needs a `pt` block with the Portuguese text. Use the existing ones as templates.
-3. For `code`, provide `starter`, `solution` and `tests`. CI checks that **every solution passes its tests and every starter fails**.
-4. Run `npm run check` and open a PR.
+3. For a lesson reel, mark beats with `|` in `say` and run `npm run reel:audio` to generate the narration (needs `brew install uv espeak-ng ffmpeg`; the first run downloads the ~330 MB model). Commit `public/reel-audio/` and `content/reels/audio-manifest.json`.
+4. For `code`, provide `starter`, `solution` and `tests`. CI checks that **every solution passes its tests and every starter fails**.
+5. Run `npm run check` and open a PR.
 
 ## Roadmap
 
