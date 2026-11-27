@@ -5,6 +5,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db, type Section, type SessionEntry } from "@/lib/db";
 import { addExtraToSession, ensureSession, recordAttempt } from "@/lib/db/actions";
 import { getContent } from "@/lib/content";
+import { titleOf } from "@/lib/content/localize";
+import type { Lang } from "@/lib/content/schema";
+import { useContentLang } from "@/lib/use-content-lang";
 import { weekFor } from "@/lib/daily/build-session";
 import { parseDay, streak } from "@/lib/date";
 import { t } from "@/lib/i18n/pt";
@@ -13,7 +16,7 @@ import { useEnter } from "@/lib/use-enter";
 import { Button, Kbd, Label } from "@/components/ui";
 import { ItemPlayer } from "@/components/player/item-player";
 
-const SECTION_ORDER: Section[] = ["review", "terms", "learn", "practice", "speak"];
+const SECTION_ORDER: Section[] = ["lesson", "review", "terms", "learn", "practice", "speak"];
 
 function greeting(d: Date) {
   const h = d.getHours();
@@ -25,14 +28,15 @@ function itemMinutes(id: string) {
   return !it ? 0 : it.type === "term" ? 1 : it.exercise.estimatedMin;
 }
 
-function itemTitle(id: string) {
+function itemTitle(id: string, lang: Lang) {
   const it = getContent().itemById.get(id);
   if (!it) return id;
-  return it.type === "term" ? it.term.term : it.exercise.title;
+  return it.type === "term" ? it.term.term : titleOf(it.exercise, lang);
 }
 
 export function TodayView() {
   const day = useToday();
+  const lang = useContentLang();
   const content = getContent();
 
   useEffect(() => {
@@ -108,7 +112,7 @@ export function TodayView() {
   const allDone = pending.length === 0;
 
   const nextExtra = content.exercises.find(
-    (e) => !seenIds?.has(e.id) && !entries.some((x) => x.itemId === e.id) && e.kind !== "behavioral",
+    (e) => !seenIds?.has(e.id) && !entries.some((x) => x.itemId === e.id) && (e.kind === "quiz" || e.kind === "code" || e.kind === "sql" || e.kind === "review"),
   );
 
   return (
@@ -172,7 +176,7 @@ export function TodayView() {
                     >
                       {isDone ? "✓" : ""}
                     </span>
-                    <span className={`flex-1 ${isDone ? "text-muted line-through decoration-border-strong" : ""}`}>{itemTitle(e.itemId)}</span>
+                    <span className={`flex-1 ${isDone ? "text-muted line-through decoration-border-strong" : ""}`}>{itemTitle(e.itemId, lang)}</span>
                     <span className="font-mono text-[11px] text-faint">{kind}</span>
                   </button>
                 </li>
@@ -197,7 +201,7 @@ export function TodayView() {
       )}
 
       <p data-enter className="text-center text-xs text-faint">
-        Atalhos: <Kbd>1</Kbd>–<Kbd>4</Kbd> avaliar · <Kbd>espaço</Kbd> revelar · <Kbd>⌘↵</Kbd> enviar/correr
+        Atalhos: <Kbd>1</Kbd>–<Kbd>4</Kbd> responder · <Kbd>↵</Kbd> continuar · <Kbd>⌘↵</Kbd> corrigir/correr
       </p>
     </div>
   );

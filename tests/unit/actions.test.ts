@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { db } from "@/lib/db";
-import { ensureSession, exportBackup, importBackup, recordAttempt, resetAll, setSetting } from "@/lib/db/actions";
+import { ensureSession, exportBackup, importBackup, recordAttempt, resetAll, restartTrack, setSetting } from "@/lib/db/actions";
 import { Rating } from "@/lib/srs";
 import { streak } from "@/lib/date";
 
@@ -18,7 +18,7 @@ describe("ensureSession", () => {
 
   it("a failed item comes back as a review the next day", async () => {
     const s1 = await ensureSession("2026-11-26");
-    const first = s1.entries[0].itemId;
+    const first = s1.entries.find((e) => e.section !== "lesson")!.itemId;
     await recordAttempt({ itemId: first, day: "2026-11-26", rating: Rating.Again, correct: false });
     const s2 = await ensureSession("2026-11-27");
     expect(s2.entries.find((e) => e.itemId === first)?.section).toBe("review");
@@ -26,10 +26,35 @@ describe("ensureSession", () => {
 
   it("an easy item does not come back the next day", async () => {
     const s1 = await ensureSession("2026-11-26");
-    const first = s1.entries[0].itemId;
+    const first = s1.entries.find((e) => e.section !== "lesson")!.itemId;
     await recordAttempt({ itemId: first, day: "2026-11-26", rating: Rating.Easy, correct: true });
     const s2 = await ensureSession("2026-11-27");
     expect(s2.entries.some((e) => e.itemId === first)).toBe(false);
+  });
+});
+
+describe("lessons", () => {
+  it("are recorded without a review card, and the next day brings the next lesson", async () => {
+    const s1 = await ensureSession("2026-11-26");
+    expect(s1.entries[0].section).toBe("lesson");
+    await recordAttempt({ itemId: s1.entries[0].itemId, day: "2026-11-26", rating: Rating.Good, correct: true, schedule: false });
+    expect(await db.cards.get(s1.entries[0].itemId)).toBeUndefined();
+    const s2 = await ensureSession("2026-11-27");
+    expect(s2.entries[0].itemId).not.toBe(s1.entries[0].itemId);
+    expect(s2.entries.some((e) => e.itemId === s1.entries[0].itemId)).toBe(false);
+  });
+});
+
+describe("restartTrack", () => {
+  it("moves the start day and rebuilds today's session", async () => {
+    await setSetting("startDay", "2026-10-01");
+    const before = await ensureSession("2026-11-26");
+    await restartTrack("2026-11-26");
+    expect((await db.settings.get("startDay"))?.value).toBe("2026-11-26");
+    expect(await db.sessions.get("2026-11-26")).toBeUndefined();
+    const after = await ensureSession("2026-11-26");
+    expect(after.entries[0].itemId).toBe("lesson-how-web-works");
+    expect(before).toBeDefined();
   });
 });
 
@@ -37,7 +62,7 @@ describe("backup", () => {
   it("round-trips through JSON", async () => {
     await setSetting("topicLevels", { rls: "weak" });
     const s = await ensureSession("2026-11-26");
-    await recordAttempt({ itemId: s.entries[0].itemId, day: "2026-11-26", rating: Rating.Good, correct: true, answer: "x" });
+    await recordAttempt({ itemId: s.entries.find((e) => e.section !== "lesson")!.itemId, day: "2026-11-26", rating: Rating.Good, correct: true, answer: "x" });
     const json = JSON.parse(JSON.stringify(await exportBackup()));
     await resetAll();
     expect(await db.cards.count()).toBe(0);

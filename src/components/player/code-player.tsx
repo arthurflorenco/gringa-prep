@@ -10,7 +10,7 @@ import { Md } from "@/components/md";
 import { Button, Kbd, Label, Pill } from "@/components/ui";
 import { useHotkeys } from "@/lib/use-hotkeys";
 import { pop } from "@/lib/use-enter";
-import { RatingBar } from "./rating-bar";
+import { AutoResult } from "./auto-result";
 import type { PlayerProps } from "./types";
 
 const CodeEditor = dynamic(() => import("./code-editor"), {
@@ -50,10 +50,11 @@ export function CodePlayer({ data, itemId, day, onDone }: PlayerProps<CodeExerci
 
   const finish = (g: Rating) => {
     localStorage.removeItem(draftKey);
-    onDone({ rating: g as never, correct: solved && !gaveUp && g >= Rating.Good, answer: code });
+    onDone({ rating: g as never, correct: solved && !gaveUp, answer: code });
   };
 
-  const suggested = gaveUp ? Rating.Again : solved ? (runs <= 1 && hintsShown === 0 ? Rating.Easy : runs <= 3 ? Rating.Good : Rating.Hard) : undefined;
+  // Nota automática: desistiu → Errei; à 1ª sem dicas → Fácil; até 3 corridas → Bom; senão Difícil.
+  const auto = gaveUp ? Rating.Again : runs <= 1 && hintsShown === 0 ? Rating.Easy : runs <= 3 && hintsShown <= 1 ? Rating.Good : Rating.Hard;
 
   return (
     <div className="space-y-6">
@@ -130,17 +131,12 @@ export function CodePlayer({ data, itemId, day, onDone }: PlayerProps<CodeExerci
             <summary className="cursor-pointer list-none font-mono text-[11px] uppercase tracking-[0.12em] text-faint">
               solução de referência
             </summary>
-            <div className="mt-3">
+            <div className="mt-3 space-y-3">
               <CodeEditor value={data.solution} readOnly />
+              {data.explanation && <Md className="text-sm text-muted">{data.explanation}</Md>}
             </div>
           </details>
-          <RatingBar
-            itemId={itemId}
-            day={day}
-            onRate={(g) => finish(g)}
-            suggested={suggested}
-            allowed={gaveUp ? [Rating.Again, Rating.Hard] : undefined}
-          />
+          <AutoResult itemId={itemId} day={day} rating={auto} onContinue={() => finish(auto)} />
         </>
       )}
       {!solved && !gaveUp && runs === 0 && (

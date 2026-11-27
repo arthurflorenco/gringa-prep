@@ -25,7 +25,7 @@ export async function setSetting<K extends keyof Settings>(key: K, value: Settin
 
 /** Devolve a sessão do dia, criando-a (uma única vez) se ainda não existir. */
 export async function ensureSession(day: Day): Promise<SessionRow> {
-  return db.transaction("rw", db.sessions, db.cards, db.settings, async () => {
+  return db.transaction("rw", db.sessions, db.cards, db.settings, db.attempts, async () => {
     const existing = await db.sessions.get(day);
     if (existing) return existing;
 
@@ -36,6 +36,15 @@ export async function ensureSession(day: Day): Promise<SessionRow> {
       await db.settings.put({ key: "startDay", value: day });
     }
     const cards = await db.cards.toArray();
+    const attempts = await db.attempts.orderBy("id").toArray();
+    const attempted = [...new Set(attempts.map((a) => a.itemId))];
+    const content = getContent();
+    const topicOf = (id: string) => {
+      const it = content.itemById.get(id);
+      return it ? (it.type === "term" ? it.term.topic : it.exercise.topic) : undefined;
+    };
+    const progressWeek = Math.max(0, ...attempted.map((id) => content.topicBySlug.get(topicOf(id) ?? "")?.week ?? 0));
+    const recentTopic = attempts.length ? topicOf(attempts[attempts.length - 1].itemId) : undefined;
     const due = cards
       .filter((c) => c.due.getTime() <= endOfDay(day).getTime())
       .sort((a, b) => a.due.getTime() - b.due.getTime())
@@ -44,8 +53,10 @@ export async function ensureSession(day: Day): Promise<SessionRow> {
     const entries = buildDailySession({
       day,
       startDay,
-      content: getContent(),
-      seenIds: new Set(cards.map((c) => c.itemId)),
+      content,
+      progressWeek,
+      recentTopic,
+      seenIds: new Set([...cards.map((c) => c.itemId), ...attempted]),
       dueIds: due,
       topicLevels: settings.topicLevels,
     });
@@ -62,14 +73,17 @@ export interface RecordInput {
   correct: boolean;
   answer?: string;
   durationSec?: number;
+  /** false = só regista (aulas): não cria nem reagenda card. */
+  schedule?: boolean;
 }
 
 /** Grava a tentativa e reagenda o card no FSRS. */
-export async function recordAttempt(input: RecordInput): Promise<Card> {
+export async function recordAttempt({ schedule = true, ...input }: RecordInput): Promise<Card | null> {
   const now = nowOn(input.day);
   return db.transaction("rw", db.attempts, db.cards, async () => {
     const attempt: AttemptRow = { ...input, createdAt: now };
     await db.attempts.add(attempt);
+    if (!schedule) return null;
     const existing = await db.cards.get(input.itemId);
     const { itemId: _id, lastRating: _r, ...card } = existing ?? { ...newCard(now), itemId: input.itemId };
     void _id;
@@ -86,6 +100,14 @@ export async function addExtraToSession(day: Day, itemId: string) {
     const s = await db.sessions.get(day);
     if (!s || s.entries.some((e) => e.itemId === itemId)) return;
     await db.sessions.put({ ...s, entries: [...s.entries, { itemId, section: "learn" }] });
+  });
+}
+
+/** Recomeça a trilha: a semana 1 passa a ser hoje e a sessão de hoje é refeita. O histórico fica. */
+export async function restartTrack(day: Day) {
+  await db.transaction("rw", db.settings, db.sessions, async () => {
+    await db.settings.put({ key: "startDay", value: day });
+    await db.sessions.delete(day);
   });
 }
 

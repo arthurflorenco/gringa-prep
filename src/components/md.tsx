@@ -42,27 +42,37 @@ export function Md({ children, className = "" }: { children: string; className?:
       .filter(Boolean)
       .forEach((para, j) => {
         const key = `p${idx}-${j}`;
-        const lines = para.split("\n");
-        if (lines.every((l) => /^\s*[-*] /.test(l))) {
-          blocks.push(
-            <ul key={key} className="list-disc space-y-1 pl-5 marker:text-faint">
-              {lines.map((l, k) => (
-                <li key={k}>{inline(l.replace(/^\s*[-*] /, ""), `${key}-${k}`)}</li>
-              ))}
-            </ul>,
-          );
-        } else {
-          blocks.push(
-            <p key={key}>
-              {lines.map((l, k) => (
-                <Fragment key={k}>
-                  {k > 0 && <br />}
-                  {inline(l, `${key}-${k}`)}
-                </Fragment>
-              ))}
-            </p>,
-          );
+        // Agrupa linhas seguidas: as que começam por "- " viram lista, as outras parágrafo.
+        const groups: { list: boolean; lines: string[] }[] = [];
+        for (const line of para.split("\n")) {
+          const list = /^\s*[-*] /.test(line);
+          const last = groups[groups.length - 1];
+          if (last && last.list === list) last.lines.push(line);
+          else groups.push({ list, lines: [line] });
         }
+        groups.forEach((g, gi) => {
+          const gk = `${key}-${gi}`;
+          if (g.list) {
+            blocks.push(
+              <ul key={gk} className="list-disc space-y-1 pl-5 marker:text-faint">
+                {g.lines.map((l, k) => (
+                  <li key={k}>{inline(l.replace(/^\s*[-*] /, ""), `${gk}-${k}`)}</li>
+                ))}
+              </ul>,
+            );
+          } else {
+            blocks.push(
+              <p key={gk}>
+                {g.lines.map((l, k) => (
+                  <Fragment key={k}>
+                    {k > 0 && <br />}
+                    {inline(l, `${gk}-${k}`)}
+                  </Fragment>
+                ))}
+              </p>,
+            );
+          }
+        });
       });
   });
   return <div className={`space-y-3 leading-relaxed ${className}`}>{blocks}</div>;

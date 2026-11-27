@@ -1,7 +1,7 @@
-import type { ExerciseInput } from "@/lib/content/schema";
+import type { LegacyExerciseInput } from "@/lib/content/schema";
 
 /** Temas mais cobrados para full-stack: dados, autorização, testes, auditoria. */
-export const exercises: ExerciseInput[] = [
+export const exercises: LegacyExerciseInput[] = [
   {
     id: "authn-vs-authz",
     kind: "concept",
